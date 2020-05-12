@@ -2,16 +2,20 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import NumberSquares from "./NumberSquares";
-import "./NumberSquares/NumberSquare.css"; // you suggested a shorter import format for this?
 import ResultSquare from "./ResultSquares";
-import "./ResultSquares/ResultSquare.css";
 import MathSigns from "./MathSigns";
-import "./MathSigns/MathSigns.css";
 
 class Game extends React.Component {
   getRandomNr() {
-    const randomNr = Math.floor(Math.random() * 10) + 1;
+    const randomNr = Math.floor(Math.random() * 20) + 1;
     return randomNr;
+  }
+
+  // = entryAlt[Math.floor(Math.random() * entryAlt.length)];
+  getOperator() {
+    const mathOps = ["+", "-", "*", "/"];
+
+    return mathOps[Math.floor(Math.random() * mathOps.length)];
   }
 
   handleResult() {
@@ -22,7 +26,17 @@ class Game extends React.Component {
   }
 
   handleNext() {
+    const [count, setCount] = useState(1);
+    const NextPushed = () => {
+      setCount(count + 1);
+    };
     console.log("NEXT button pushed");
+    // return <NumberSquares value={this.getRandomNr()}></NumberSquares>;
+    return (
+      <div>
+        <button onClick={NextPushed}>Ez is next</button>
+      </div>
+    );
   }
 
   handleCheck() {
@@ -37,7 +51,7 @@ class Game extends React.Component {
   //   );
   // }
 
-  renderResultSquare() {
+  gameResultSquare() {
     return <ResultSquare onChange={this.input} />;
   }
 
@@ -49,11 +63,11 @@ class Game extends React.Component {
             <div className="board-row">
               {/* {this.renderNrSquare(0)} */}
               <NumberSquares value={this.getRandomNr()}></NumberSquares>
-              <MathSigns value="+"></MathSigns>
+              <MathSigns value={this.getOperator()}></MathSigns>
               {/* {this.renderNrSquare(1)} */}
               <NumberSquares value={this.getRandomNr()}></NumberSquares>
               <MathSigns value="="></MathSigns>
-              {this.renderResultSquare()}
+              {this.gameResultSquare()}
             </div>
           </div>
         </div>
@@ -61,7 +75,7 @@ class Game extends React.Component {
           {/* <button onClick={(Board.squares = () => this.handleClick())}>
             NEXT
           </button> */}
-          <button onClick={() => this.getRandomNr()}>NEXT</button>
+          <button onClick={() => this.handleNext()}>NEXT</button>
           <button onClick={() => this.handleCheck()}>CHECK</button>
         </div>
       </div>
