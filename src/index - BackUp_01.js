@@ -2,13 +2,71 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import NumberSquares from "./NumberSquares";
-import "./NumberSquares/NumberSquare.css"; // you suggested a shorter import format for this?
+import "./NumberSquares/NumberSquare.css";
 import ResultSquare from "./ResultSquares";
 import "./ResultSquares/ResultSquare.css";
 import MathSigns from "./MathSigns";
 import "./MathSigns/MathSigns.css";
 
+// function NumberSquares(props) {
+//   return <button className="square">{props.value}</button>;
+// }
+
+// answer input field
+// function ResultSquare(props) {
+//   return (
+//     <input
+//       type="text"
+//       className="resultSquare"
+//       value={props.value}
+//       onChange={props.onChange}
+//     />
+//   );
+// }
+
+// class Board extends React.Component {
+//   renderNrSquare(i) {
+//     return (
+//       <NumberSquares
+//         value={this.props.squares[i]}
+//         // onClick={() => this.props.onClick(i)}
+//       />
+//     );
+//   }
+
+//   renderResultSquare() {
+//     return (
+//       <ResultSquare
+//         placeholder="??"
+//         value={this.props.result}
+//         onChange={this.props.input}
+//       />
+//     );
+//   }
+
+//   render() {
+//     return (
+//       <div>
+//         <div className="board-row">
+//           {this.renderNrSquare(0)}
+//           <div className="mathsSign">+</div>
+//           {this.renderNrSquare(1)}
+//           <div className="mathsSign">=</div>
+//           {this.renderResultSquare()}
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+
 class Game extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      // history:
+    };
+  }
+
   getRandomNr() {
     const randomNr = Math.floor(Math.random() * 10) + 1;
     return randomNr;
@@ -45,6 +103,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
+          {/* <Board squares={this.handleClick()} result={this.handleResult()} /> */}
           <div>
             <div className="board-row">
               {/* {this.renderNrSquare(0)} */}
@@ -72,3 +131,27 @@ class Game extends React.Component {
 // ========================================
 
 ReactDOM.render(<Game />, document.getElementById("root"));
+
+// checkNumber = (a, b)=>{
+//   a
+
+// }
+
+// const setAValaszt = (ertek)=>{
+//   setValasz(ertek);
+// }
+// const randmoiseNUmber=()=>{
+//   //generate a ranonumber
+//   const rand = 5;
+//   setElsoSzam(rand);
+// }
+// const [elsoSzam, setElsoSzam]=useState(4);
+// const [masodikSzam, setMasodikSzam]=useState(34);
+// const [valasz, setValasz]=useState();
+// <NumberSquare value={elsoSzam} />
+// +
+// <NumberSquare value={masodikSzam} />
+// =
+// <reusltComponent callback={setAValaszt}/>
+
+// <buttom onClick=

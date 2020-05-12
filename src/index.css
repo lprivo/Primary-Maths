@@ -14,13 +14,6 @@ ul {
   display: table;
 }
 
-.mathsSign {
-  float: left;
-  font-size: 44px;
-  padding: 0;
-  text-align: center;
-}
-
 .status {
   margin-bottom: 10px;
 }
@@ -38,29 +31,6 @@ ul {
   padding: 0;
   text-align: center;
   width: 68px;
-}
-
-.resultSquare {
-  background: #fff;
-  border: 1px solid #999;
-  float: left;
-  font-size: 48px;
-  font-weight: bold;
-  line-height: 68px;
-  height: 68px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
-  width: 68px;
-}
-.resultSquare::placeholder {
-  font-size: 40px;
-  font-weight: normal;
-}
-
-.square:focus {
-  outline: none;
 }
 
 .kbd-navigation .square:focus {

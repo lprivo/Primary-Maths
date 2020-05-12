@@ -1,0 +1,22 @@
+.resSquare {
+  background: #fff;
+  border: 2px solid rgb(120, 200, 200);
+  float: left;
+  font-size: 48px;
+  font-weight: bold;
+  line-height: 66px;
+  height: 66px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 66px;
+}
+.resSquare::placeholder {
+  font-size: 40px;
+  font-weight: normal;
+}
+
+.resSquare:focus {
+  outline: none;
+}
