@@ -7,6 +7,7 @@ import MathSigns from "./MathSigns";
 
 export const Game = () => {
   const [count, setCount] = useState(1);
+  console.log(`count= ${count}`);
 
   const getRandomNr = () => {
     const randomNr = Math.floor(Math.random() * 20) + 1;
@@ -31,11 +32,14 @@ export const Game = () => {
     const NextPushed = () => {
       setCount(count + 1);
     };
-    console.log("NEXT button pushed");
-    // return <NumberSquares value={this.getRandomNr()}></NumberSquares>;
+    NextPushed();
     return (
-      <div>
-        <button onClick={NextPushed}>Ez is next</button>
+      <div id="board" className="board-row">
+        <NumberSquares value={getRandomNr()}></NumberSquares>
+        <MathSigns value={getOperator()}></MathSigns>
+        <NumberSquares value={getRandomNr()}></NumberSquares>
+        <MathSigns value="="></MathSigns>
+        {gameResultSquare()}
       </div>
     );
   };
@@ -64,11 +68,9 @@ export const Game = () => {
     <div className="game">
       <div className="game-board">
         <div>
-          <div className="board-row">
-            {/* {this.renderNrSquare(0)} */}
+          <div id="board" className="board-row">
             <NumberSquares value={getRandomNr()}></NumberSquares>
             <MathSigns value={getOperator()}></MathSigns>
-            {/* {this.renderNrSquare(1)} */}
             <NumberSquares value={getRandomNr()}></NumberSquares>
             <MathSigns value="="></MathSigns>
             {gameResultSquare()}
