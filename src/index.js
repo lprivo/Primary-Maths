@@ -8,6 +8,10 @@ import MathSigns from "./MathSigns";
 export const Game = () => {
   const [count, setCount] = useState(1);
   console.log(`count= ${count}`);
+  const [mathOperator, setOperator] = useState();
+  console.log(`operator= ${mathOperator}`);
+  const [userInput, setInput] = useState();
+  console.log(`input= ${userInput}`);
 
   const getRandomNr = () => {
     const randomNr = Math.floor(Math.random() * 20) + 1;
@@ -16,9 +20,14 @@ export const Game = () => {
 
   // = entryAlt[Math.floor(Math.random() * entryAlt.length)];
   const getOperator = () => {
-    const mathOps = ["+", "-", "*", "/"];
+    const mathOps = ["+", "-"];
 
-    return mathOps[Math.floor(Math.random() * mathOps.length)];
+    setOperator(mathOps[Math.floor(Math.random() * mathOps.length)]);
+  };
+
+  const getInput = (input) => {
+    setInput(input.target.value);
+    // console.log(userInput);
   };
 
   const handleResult = () => {
@@ -39,7 +48,8 @@ export const Game = () => {
         <MathSigns value={getOperator()}></MathSigns>
         <NumberSquares value={getRandomNr()}></NumberSquares>
         <MathSigns value="="></MathSigns>
-        {gameResultSquare()}
+        {/* {gameResultSquare()} */}
+        <ResultSquare onChange={getInput()} />
       </div>
     );
   };
@@ -55,14 +65,10 @@ export const Game = () => {
   //     />
   //   );
   // }
-  const input = (input) => {
-    //stub - nem tudom mi jon ide
-    console.log(input);
-  };
 
-  const gameResultSquare = () => {
-    return <ResultSquare onChange={input} />;
-  };
+  // const gameResultSquare = () => {
+  //   return <ResultSquare onChange={getInput()} />;
+  // };
 
   return (
     <div className="game">
@@ -70,10 +76,11 @@ export const Game = () => {
         <div>
           <div id="board" className="board-row">
             <NumberSquares value={getRandomNr()}></NumberSquares>
-            <MathSigns value={getOperator()}></MathSigns>
+            <MathSigns value={mathOperator}></MathSigns>
             <NumberSquares value={getRandomNr()}></NumberSquares>
             <MathSigns value="="></MathSigns>
-            {gameResultSquare()}
+            {/* {gameResultSquare()} */}
+            <ResultSquare onChange={getInput()} />
           </div>
         </div>
       </div>
