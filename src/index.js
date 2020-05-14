@@ -26,8 +26,8 @@ export const Game = () => {
   };
 
   const getInput = (input) => {
-    setInput(input.target.value);
-    // console.log(userInput);
+    // setInput(input.target.value);  // I found this in a forum too - probably old React again??
+    console.log(userInput);
   };
 
   const handleResult = () => {
@@ -76,7 +76,9 @@ export const Game = () => {
         <div>
           <div id="board" className="board-row">
             <NumberSquares value={getRandomNr()}></NumberSquares>
-            <MathSigns value={mathOperator}></MathSigns>
+            {/* <MathSigns value={getOperator()}></MathSigns>*/}{" "}
+            {/* Try switching these MathSighs around */}
+            <MathSigns value={mathOperator}></MathSigns>{" "}
             <NumberSquares value={getRandomNr()}></NumberSquares>
             <MathSigns value="="></MathSigns>
             {/* {gameResultSquare()} */}
