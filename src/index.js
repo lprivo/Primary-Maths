@@ -15,6 +15,7 @@ export const Game = () => {
   const [randomNrs, setRandomNrs] = useState([]);
   const [mathOperator, setMathOperator] = useState();
   const [userInput, setUserInput] = useState("");
+  console.log("userInput: ", userInput);
   const [result, setResults] = useState();
   const [resultColor, setResultColor] = useState("black");
   const [correctAnswer, setCorrectAnswer] = useState(false);
@@ -46,7 +47,7 @@ export const Game = () => {
   const handleNext = useCallback(() => {
     setCount(count + 1);
     getRandomNr();
-    setUserInput("");
+    setUserInput(""); // Why doesn't it also clear the input field?
     setCorrectAnswer(false);
     setResultColor("black");
     return <div className="game-board"></div>;
@@ -56,6 +57,8 @@ export const Game = () => {
     if (userInput === `${result}`) {
       setCorrectAnswer(true);
       setResultColor("green");
+    } else {
+      setResultColor("red");
     }
   }, [userInput, result]);
 
@@ -64,9 +67,13 @@ export const Game = () => {
       <div className="game-board">
         <div>
           <div id="board" className="board-row">
-            <NumberSquares value={randomNrs[0]}></NumberSquares>
+            <NumberSquares
+              value={Math.max(randomNrs[0], randomNrs[1])}
+            ></NumberSquares>
             <MathSigns>{mathOperator}</MathSigns>
-            <NumberSquares value={randomNrs[1]}></NumberSquares>
+            <NumberSquares
+              value={Math.min(randomNrs[0], randomNrs[1])}
+            ></NumberSquares>
             <MathSigns>=</MathSigns>
             <ResultSquare
               onChange={getInput}
@@ -84,6 +91,11 @@ export const Game = () => {
             &#9989;
           </span>
         )}
+        {/* {!correctAnswer && (
+          <span role="img" aria-label="Correct Answer">
+            &#10008;
+          </span>
+        )} */}
       </div>
     </div>
   );
