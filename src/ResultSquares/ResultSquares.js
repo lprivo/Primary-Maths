@@ -1,9 +1,16 @@
 import React from "react";
 import "./ResultSquare.css";
 
-export const ResultSquare = ({ e }) => {
+export const ResultSquare = ({ onChange, value, newColor }) => {
   return (
-    <input type="text" className="resSquare" placeholder="?" onChange={e} />
+    <input
+      type="text"
+      className="resSquare"
+      placeholder="?"
+      onChange={onChange}
+      defaultValue={value}
+      style={{ color: newColor }}
+    />
   );
 };
 
