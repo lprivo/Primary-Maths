@@ -10,6 +10,7 @@ export const ResultSquare = ({ onChange, value, newColor }) => {
       onChange={onChange}
       defaultValue={value}
       style={{ color: newColor }}
+      autoFocus
     />
   );
 };
