@@ -4,6 +4,7 @@ import "./index.css";
 import NumberSquares from "./NumberSquares";
 import ResultSquare from "./ResultSquares";
 import MathSigns from "./MathSigns";
+import CheckMark from "./CheckMark";
 
 const getOperator = () => {
   const operator = ["+", "-"];
@@ -15,7 +16,6 @@ export const Game = () => {
   const [randomNrs, setRandomNrs] = useState([]);
   const [mathOperator, setMathOperator] = useState();
   const [userInput, setUserInput] = useState("");
-  console.log("userInput: ", userInput);
   const [result, setResults] = useState();
   const [resultColor, setResultColor] = useState("black");
   const [correctAnswer, setCorrectAnswer] = useState(false);
@@ -30,7 +30,7 @@ export const Game = () => {
       setResults(randomN1 + randomN2);
     }
     if (operator === "-") {
-      setResults(randomN1 - randomN2);
+      setResults(Math.abs(randomN1 - randomN2));
     }
   }, []);
 
@@ -50,7 +50,7 @@ export const Game = () => {
     setUserInput(""); // Why doesn't it also clear the input field?
     setCorrectAnswer(false);
     setResultColor("black");
-    return <div className="game-board"></div>;
+    return <div id="board" className="board-row"></div>;
   }, [count, getRandomNr]);
 
   const handleCheck = useCallback(() => {
@@ -67,35 +67,27 @@ export const Game = () => {
       <div className="game-board">
         <div>
           <div id="board" className="board-row">
-            <NumberSquares
-              value={Math.max(randomNrs[0], randomNrs[1])}
-            ></NumberSquares>
+            <NumberSquares>
+              {Math.max(randomNrs[0], randomNrs[1])}
+            </NumberSquares>
             <MathSigns>{mathOperator}</MathSigns>
-            <NumberSquares
-              value={Math.min(randomNrs[0], randomNrs[1])}
-            ></NumberSquares>
+            <NumberSquares>
+              {Math.min(randomNrs[0], randomNrs[1])}
+            </NumberSquares>
             <MathSigns>=</MathSigns>
             <ResultSquare
               onChange={getInput}
               value={userInput}
               newColor={resultColor}
             />
+            <CheckMark>{correctAnswer && "✅"}</CheckMark>
+            {/* &#9989; "✔"  */}
           </div>
         </div>
       </div>
       <div className="game-info">
         <button onClick={() => handleNext()}>NEXT</button>
         <button onClick={() => handleCheck()}>CHECK</button>
-        {correctAnswer && (
-          <span role="img" aria-label="Correct Answer">
-            &#9989;
-          </span>
-        )}
-        {/* {!correctAnswer && (
-          <span role="img" aria-label="Correct Answer">
-            &#10008;
-          </span>
-        )} */}
       </div>
     </div>
   );
