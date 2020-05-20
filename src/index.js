@@ -22,14 +22,20 @@ export const Game = () => {
 
   const getRandomNr = useCallback(() => {
     const randomN1 = Math.floor(Math.random() * 20) + 1;
+    console.log("randomN1: ", randomN1);
     const randomN2 = Math.floor(Math.random() * 20) + 1;
+    console.log("randomN2: ", randomN2);
     const operator = getOperator();
     setMathOperator(operator);
-    setRandomNrs([randomN1, randomN2]);
     if (operator === "+") {
+      setRandomNrs([randomN1, randomN2]);
       setResults(randomN1 + randomN2);
     }
     if (operator === "-") {
+      setRandomNrs([
+        Math.max(randomN1, randomN2),
+        Math.min(randomN1, randomN2),
+      ]);
       setResults(Math.abs(randomN1 - randomN2));
     }
   }, []);
@@ -67,13 +73,9 @@ export const Game = () => {
       <div className="game-board">
         <div>
           <div id="board" className="board-row">
-            <NumberSquares>
-              {Math.max(randomNrs[0], randomNrs[1])}
-            </NumberSquares>
+            <NumberSquares>{randomNrs[0]}</NumberSquares>
             <MathSigns>{mathOperator}</MathSigns>
-            <NumberSquares>
-              {Math.min(randomNrs[0], randomNrs[1])}
-            </NumberSquares>
+            <NumberSquares>{randomNrs[1]}</NumberSquares>
             <MathSigns>=</MathSigns>
             <ResultSquare
               onChange={getInput}
