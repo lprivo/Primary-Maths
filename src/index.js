@@ -7,7 +7,7 @@ import MathSigns from "./MathSigns";
 import CheckMark from "./CheckMark";
 
 const getOperator = () => {
-  const operator = ["+", "-"];
+  const operator = ["+", "-", "*"];
   return operator[Math.floor(Math.random() * operator.length)];
 };
 
@@ -16,27 +16,36 @@ export const Game = () => {
   const [randomNrs, setRandomNrs] = useState([]);
   const [mathOperator, setMathOperator] = useState();
   const [userInput, setUserInput] = useState("");
+  console.log("userInput: ", userInput);
   const [result, setResults] = useState();
   const [resultColor, setResultColor] = useState("black");
   const [correctAnswer, setCorrectAnswer] = useState(false);
+  const [keyPressed, setKeyPressed] = useState(false);
+  console.log("keyPressed: ", keyPressed);
 
   const getRandomNr = useCallback(() => {
-    const randomN1 = Math.floor(Math.random() * 20) + 1;
-    console.log("randomN1: ", randomN1);
-    const randomN2 = Math.floor(Math.random() * 20) + 1;
-    console.log("randomN2: ", randomN2);
     const operator = getOperator();
     setMathOperator(operator);
     if (operator === "+") {
+      const randomN1 = Math.floor(Math.random() * 20) + 1;
+      const randomN2 = Math.floor(Math.random() * 20) + 1;
       setRandomNrs([randomN1, randomN2]);
       setResults(randomN1 + randomN2);
     }
     if (operator === "-") {
+      const randomN1 = Math.floor(Math.random() * 20) + 1;
+      const randomN2 = Math.floor(Math.random() * 20) + 1;
       setRandomNrs([
         Math.max(randomN1, randomN2),
         Math.min(randomN1, randomN2),
       ]);
       setResults(Math.abs(randomN1 - randomN2));
+    }
+    if (operator === "*") {
+      const randomN1 = Math.floor(Math.random() * 12) + 1;
+      const randomN2 = Math.floor(Math.random() * 12) + 1;
+      setRandomNrs([randomN1, randomN2]);
+      setResults(randomN1 * randomN2);
     }
   }, []);
 
@@ -68,6 +77,23 @@ export const Game = () => {
     }
   }, [userInput, result]);
 
+  // const upHandler = ({ enterKey }) => {
+  //   // enterKey.preventDefault();
+  //   if (enterKey.keyCode === 13) {
+  //     setKeyPressed(true);
+  //     handleCheck();
+  //   }
+  // };
+
+  // // Add event listeners
+  // useEffect(() => {
+  //   window.addEventListener("keyup", upHandler);
+  //   // Remove event listeners on cleanup
+  //   return () => {
+  //     window.removeEventListener("keyup", upHandler);
+  //   };
+  // }, []); // Empty array ensures that effect is only run on mount and unmount
+
   return (
     <div className="game">
       <div className="game-board">
@@ -88,8 +114,10 @@ export const Game = () => {
         </div>
       </div>
       <div className="game-info">
+        <button type="submit" onClick={() => handleCheck()}>
+          CHECK
+        </button>
         <button onClick={() => handleNext()}>NEXT</button>
-        <button onClick={() => handleCheck()}>CHECK</button>
       </div>
     </div>
   );

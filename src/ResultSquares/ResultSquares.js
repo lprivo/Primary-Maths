@@ -8,7 +8,7 @@ export const ResultSquare = ({ onChange, value, newColor }) => {
       className="resSquare"
       placeholder="?"
       onChange={onChange}
-      defaultValue={value ? value : ""}
+      Value={value}
       style={{ color: newColor }}
       autoFocus
     />
