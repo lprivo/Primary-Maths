@@ -13,21 +13,6 @@ body {
   margin-bottom: 10px;
 }
 
-.square {
-  background: #fff;
-  border: 1px solid #999;
-  float: left;
-  font-size: 48px;
-  font-weight: bold;
-  line-height: 68px;
-  height: 68px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
-  width: 68px;
-}
-
 .kbd-navigation .square:focus {
   background: #ddd;
 }
@@ -41,10 +26,10 @@ body {
   margin-left: 20px;
 }
 
-button {
+.gameButtons {
   margin-left: 10px;
-  margin-top: 20px;
   font-size: 17px;
+  margin-top: 5px;
 }
 
 button:focus {
@@ -53,8 +38,4 @@ button:focus {
 
 button:active {
   border: inset 1px #505050;
-}
-
-select {
-  margin-left: 10px;
 }

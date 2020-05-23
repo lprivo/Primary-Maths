@@ -1,7 +1,7 @@
 import React from "react";
 import "./ResultSquare.css";
 
-export const ResultSquare = ({ onChange, value, newColor }) => {
+export const ResultSquare = ({ onChange, value, newColor, focus }) => {
   return (
     <input
       type="text"
@@ -10,7 +10,7 @@ export const ResultSquare = ({ onChange, value, newColor }) => {
       onChange={onChange}
       value={value}
       style={{ color: newColor }}
-      autoFocus
+      autoFocus={focus}
     />
   );
 };
