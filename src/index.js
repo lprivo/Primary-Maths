@@ -1,88 +1,102 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import NumberSquares from "./NumberSquares";
 import ResultSquare from "./ResultSquares";
 import MathSigns from "./MathSigns";
+import CheckMark from "./CheckMark";
+
+const getOperator = () => {
+  const operator = ["+", "-", "*"];
+  return operator[Math.floor(Math.random() * operator.length)];
+};
 
 export const Game = () => {
   const [count, setCount] = useState(1);
-  console.log(`count= ${count}`);
+  const [randomNrs, setRandomNrs] = useState([]);
+  const [mathOperator, setMathOperator] = useState();
+  const [userInput, setUserInput] = useState("");
+  const [result, setResults] = useState();
+  const [resultColor, setResultColor] = useState("black");
+  const [correctAnswer, setCorrectAnswer] = useState(false);
 
-  const getRandomNr = () => {
-    const randomNr = Math.floor(Math.random() * 20) + 1;
-    return randomNr;
-  };
+  const getEquation = useCallback(() => {
+    const operator = getOperator();
+    setMathOperator(operator);
+    if (operator === "+") {
+      const randomN1 = Math.floor(Math.random() * 20) + 1;
+      const randomN2 = Math.floor(Math.random() * 20) + 1;
+      setRandomNrs([randomN1, randomN2]);
+      setResults(randomN1 + randomN2);
+    }
+    if (operator === "-") {
+      const randomN1 = Math.floor(Math.random() * 20) + 1;
+      const randomN2 = Math.floor(Math.random() * 20) + 1;
+      setRandomNrs([
+        Math.max(randomN1, randomN2),
+        Math.min(randomN1, randomN2),
+      ]);
+      setResults(Math.abs(randomN1 - randomN2));
+    }
+    if (operator === "*") {
+      const randomN1 = Math.floor(Math.random() * 12) + 1;
+      const randomN2 = Math.floor(Math.random() * 12) + 1;
+      setRandomNrs([randomN1, randomN2]);
+      setResults(randomN1 * randomN2);
+    }
+  }, []);
 
-  // = entryAlt[Math.floor(Math.random() * entryAlt.length)];
-  const getOperator = () => {
-    const mathOps = ["+", "-", "*", "/"];
+  useEffect(() => {
+    getEquation();
+  }, [getEquation]);
 
-    return mathOps[Math.floor(Math.random() * mathOps.length)];
-  };
+  const getInput = useCallback((event) => {
+    setUserInput(event.target.value);
+    setCorrectAnswer(false);
+    setResultColor("black");
+  }, []);
 
-  const handleResult = () => {
-    let result;
-    // const result = document.getElementById("ResultSquare").value;
-    console.log("result");
-    return result;
-  };
+  const handleNext = useCallback(() => {
+    setCount(count + 1);
+    getEquation();
+    setUserInput("");
+    setCorrectAnswer(false);
+    setResultColor("black");
+    return <div id="board" className="board-row"></div>;
+  }, [count, getEquation]);
 
-  const handleNext = () => {
-    const NextPushed = () => {
-      setCount(count + 1);
-    };
-    NextPushed();
-    return (
-      <div id="board" className="board-row">
-        <NumberSquares value={getRandomNr()}></NumberSquares>
-        <MathSigns value={getOperator()}></MathSigns>
-        <NumberSquares value={getRandomNr()}></NumberSquares>
-        <MathSigns value="="></MathSigns>
-        {gameResultSquare()}
-      </div>
-    );
-  };
-
-  const handleCheck = () => {
-    console.log("CHECK button pushed");
-  };
-
-  // renderNrSquare(i) {
-  //   return (
-  //     <NumberSquares
-  //       value={this.getRandomNr()}
-  //     />
-  //   );
-  // }
-  const input = (input) => {
-    //stub - nem tudom mi jon ide
-    console.log(input);
-  };
-
-  const gameResultSquare = () => {
-    return <ResultSquare onChange={input} />;
-  };
+  const handleCheck = useCallback(() => {
+    if (userInput === `${result}`) {
+      setCorrectAnswer(true);
+      setResultColor("green");
+    } else {
+      setResultColor("red");
+    }
+  }, [userInput, result]);
 
   return (
     <div className="game">
       <div className="game-board">
         <div>
           <div id="board" className="board-row">
-            <NumberSquares value={getRandomNr()}></NumberSquares>
-            <MathSigns value={getOperator()}></MathSigns>
-            <NumberSquares value={getRandomNr()}></NumberSquares>
-            <MathSigns value="="></MathSigns>
-            {gameResultSquare()}
+            <NumberSquares>{randomNrs[0]}</NumberSquares>
+            <MathSigns>{mathOperator}</MathSigns>
+            <NumberSquares>{randomNrs[1]}</NumberSquares>
+            <MathSigns>=</MathSigns>
+            <ResultSquare
+              onChange={getInput}
+              value={userInput}
+              newColor={resultColor}
+            />
+            <CheckMark>{correctAnswer && "✅"}</CheckMark>
           </div>
         </div>
       </div>
       <div className="game-info">
-        {/* <button onClick={(Board.squares = () => this.handleClick())}>
-            NEXT
-          </button> */}
+        <button id="checkButton" type="submit" onClick={() => handleCheck()}>
+          CHECK
+        </button>
         <button onClick={() => handleNext()}>NEXT</button>
-        <button onClick={() => handleCheck()}>CHECK</button>
       </div>
     </div>
   );

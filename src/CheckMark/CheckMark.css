@@ -1,0 +1,12 @@
+.checkMark {
+  background: #fff;
+  float: left;
+  font-size: 30px;
+  height: 30px;
+  margin-right: 0px;
+  margin-top: 13px;
+  margin-left: 5px;
+  padding: 0;
+  text-align: center;
+  width: 30px;
+}

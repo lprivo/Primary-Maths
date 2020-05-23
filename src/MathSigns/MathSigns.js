@@ -1,8 +1,8 @@
 import React from "react";
 import "./MathSigns.css";
 
-export const MathSigns = ({ value }) => {
-  return <div className="mathSigns">{value}</div>;
+export const MathSigns = ({ children }) => {
+  return <div className="mathSigns">{children}</div>;
 };
 
 export default MathSigns;
