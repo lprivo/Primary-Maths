@@ -16,14 +16,11 @@ export const Game = () => {
   const [randomNrs, setRandomNrs] = useState([]);
   const [mathOperator, setMathOperator] = useState();
   const [userInput, setUserInput] = useState("");
-  console.log("userInput: ", userInput);
   const [result, setResults] = useState();
   const [resultColor, setResultColor] = useState("black");
   const [correctAnswer, setCorrectAnswer] = useState(false);
-  const [keyPressed, setKeyPressed] = useState(false);
-  console.log("keyPressed: ", keyPressed);
 
-  const getRandomNr = useCallback(() => {
+  const getEquation = useCallback(() => {
     const operator = getOperator();
     setMathOperator(operator);
     if (operator === "+") {
@@ -50,8 +47,8 @@ export const Game = () => {
   }, []);
 
   useEffect(() => {
-    getRandomNr();
-  }, [getRandomNr]);
+    getEquation();
+  }, [getEquation]);
 
   const getInput = useCallback((event) => {
     setUserInput(event.target.value);
@@ -61,12 +58,12 @@ export const Game = () => {
 
   const handleNext = useCallback(() => {
     setCount(count + 1);
-    getRandomNr();
-    setUserInput(""); // Why doesn't it also clear the input field?
+    getEquation();
+    setUserInput("");
     setCorrectAnswer(false);
     setResultColor("black");
     return <div id="board" className="board-row"></div>;
-  }, [count, getRandomNr]);
+  }, [count, getEquation]);
 
   const handleCheck = useCallback(() => {
     if (userInput === `${result}`) {
@@ -76,23 +73,6 @@ export const Game = () => {
       setResultColor("red");
     }
   }, [userInput, result]);
-
-  // const upHandler = ({ enterKey }) => {
-  //   // enterKey.preventDefault();
-  //   if (enterKey.keyCode === 13) {
-  //     setKeyPressed(true);
-  //     handleCheck();
-  //   }
-  // };
-
-  // // Add event listeners
-  // useEffect(() => {
-  //   window.addEventListener("keyup", upHandler);
-  //   // Remove event listeners on cleanup
-  //   return () => {
-  //     window.removeEventListener("keyup", upHandler);
-  //   };
-  // }, []); // Empty array ensures that effect is only run on mount and unmount
 
   return (
     <div className="game">
@@ -109,12 +89,11 @@ export const Game = () => {
               newColor={resultColor}
             />
             <CheckMark>{correctAnswer && "✅"}</CheckMark>
-            {/* &#9989; "✔"  */}
           </div>
         </div>
       </div>
       <div className="game-info">
-        <button type="submit" onClick={() => handleCheck()}>
+        <button id="checkButton" type="submit" onClick={() => handleCheck()}>
           CHECK
         </button>
         <button onClick={() => handleNext()}>NEXT</button>

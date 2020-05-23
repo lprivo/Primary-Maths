@@ -46,3 +46,15 @@ button {
   margin-top: 20px;
   font-size: 17px;
 }
+
+button:focus {
+  border: 2px solid;
+}
+
+button:active {
+  border: inset 1px #505050;
+}
+
+select {
+  margin-left: 10px;
+}
