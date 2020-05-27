@@ -12,8 +12,9 @@ const getOperator = () => {
 
 export const Game = () => {
   const [exeAmount, setExeAmount] = useState(0);
-  // console.log("exeAmount: ", exeAmount);
+  console.log("exeAmount: ", exeAmount);
   const [countTotal, setCountTotal] = useState(1);
+  console.log("countTotal: ", countTotal);
   const [randomNrs, setRandomNrs] = useState([]);
   const [mathOperator, setMathOperator] = useState();
   const [userInput, setUserInput] = useState("");
@@ -66,9 +67,10 @@ export const Game = () => {
       setCorrectAnswer(false);
       setResultColor("black");
       // setAutoFocus(true);
-    } else {
-      alert("Completed!");
     }
+    // else {
+    //   alert("Completed!");
+    // }
     return <div id="board" className="board-row"></div>;
   }, [exeAmount, countTotal, getEquation]);
 
@@ -107,19 +109,19 @@ export const Game = () => {
       <div className="game-board">
         <div>
           <SetUp eventHandler={getExeAmount}></SetUp>
-          <div>
-            <table id="board" className="board-row">
-              <Exercise
-                onChange={getInput}
-                value={userInput}
-                newColor={resultColor}
-                CheckMarkChild={correctAnswer}
-                randomNrs1={randomNrs[0]}
-                randomNrs2={randomNrs[1]}
-                operator={mathOperator}
-                focus={autoFocus}
-              ></Exercise>
-            </table>
+          <div id="board" className="board-row">
+            {/* css flexi boxes! */}
+            <Exercise
+              onChange={getInput}
+              value={userInput}
+              newColor={resultColor}
+              onKeyPress={handleCheck}
+              CheckMarkChild={correctAnswer}
+              randomNrs1={randomNrs[0]}
+              randomNrs2={randomNrs[1]}
+              operator={mathOperator}
+              focus={autoFocus}
+            ></Exercise>
           </div>
         </div>
       </div>
@@ -128,10 +130,15 @@ export const Game = () => {
           className="gameButtons"
           type="submit"
           onClick={() => handleCheck()}
+          disabled={!inputChanged}
         >
           CHECK
         </button>
-        <button className="gameButtons" onClick={() => handleNext()}>
+        <button
+          className="gameButtons"
+          onClick={() => handleNext()}
+          disabled={exeAmount > countTotal ? false : true}
+        >
           NEXT
         </button>
         <Stats
