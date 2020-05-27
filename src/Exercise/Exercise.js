@@ -1,4 +1,5 @@
 import React from "react";
+import "./Exercise.css";
 import NumberSquares from "../NumberSquares";
 import ResultSquare from "../ResultSquares";
 import MathSigns from "../MathSigns";
@@ -8,26 +9,26 @@ export const Exercise = ({
   randomNrs1,
   randomNrs2,
   operator,
-  e,
+  onChange,
   value,
-  value2,
-  value3,
+  newColor,
+  CheckMarkChild,
   focus,
 }) => {
   return (
-    <div>
+    <tr className="equation">
       <NumberSquares>{randomNrs1}</NumberSquares>
       <MathSigns>{operator}</MathSigns>
       <NumberSquares>{randomNrs2}</NumberSquares>
       <MathSigns>=</MathSigns>
       <ResultSquare
-        onChange={e}
+        onChange={onChange}
         value={value}
-        newColor={value2}
+        newColor={newColor}
         focus={focus}
       />
-      <CheckMark>{value3 && "✅"}</CheckMark>
-    </div>
+      <CheckMark>{CheckMarkChild && "✅"}</CheckMark>
+    </tr>
   );
 };
 

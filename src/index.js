@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import SetUp from "./SetUp";
 import Exercise from "./Exercise";
+import Stats from "./Stats";
 
 const getOperator = () => {
   const operator = ["+", "-", "*"];
@@ -11,16 +12,17 @@ const getOperator = () => {
 
 export const Game = () => {
   const [exeAmount, setExeAmount] = useState(0);
-  console.log("exeAmount: ", exeAmount);
-  const [count, setCount] = useState(1);
-  const [countCorrect, setCountCorrect] = useState(0);
-  const [countWrong, setCountWrong] = useState(0);
+  // console.log("exeAmount: ", exeAmount);
+  const [countTotal, setCountTotal] = useState(1);
   const [randomNrs, setRandomNrs] = useState([]);
   const [mathOperator, setMathOperator] = useState();
   const [userInput, setUserInput] = useState("");
+  const [inputChanged, setInputChanged] = useState(false);
   const [result, setResults] = useState();
   const [resultColor, setResultColor] = useState("black");
   const [correctAnswer, setCorrectAnswer] = useState(false);
+  const [countCorrectAnswer, setCountCorrectAswer] = useState(0);
+  const [countWrongAnswer, setCountWrongAnswer] = useState(0);
   const [autoFocus, setAutoFocus] = useState(true);
 
   const getEquation = useCallback(() => {
@@ -51,74 +53,73 @@ export const Game = () => {
 
   const getInput = useCallback((event) => {
     setUserInput(event.target.value);
+    setInputChanged(true);
     setCorrectAnswer(false);
     setResultColor("black");
   }, []);
 
   const handleNext = useCallback(() => {
-    setCount(count + 1);
-    getEquation();
-    setUserInput("");
-    setCorrectAnswer(false);
-    setResultColor("black");
-    setAutoFocus(true);
+    if (countTotal < exeAmount) {
+      setCountTotal(countTotal + 1);
+      getEquation();
+      setUserInput("");
+      setCorrectAnswer(false);
+      setResultColor("black");
+      // setAutoFocus(true);
+    } else {
+      alert("Completed!");
+    }
     return <div id="board" className="board-row"></div>;
-  }, [count, getEquation]);
+  }, [exeAmount, countTotal, getEquation]);
 
   const handleCheck = useCallback(() => {
     if (userInput === `${result}`) {
       setCorrectAnswer(true);
       setResultColor("green");
-      setCountCorrect(countCorrect + 1);
+      if (inputChanged) {
+        setCountCorrectAswer(countCorrectAnswer + 1);
+        setInputChanged(false);
+      }
     } else {
       setResultColor("red");
-      setCountWrong(countWrong + 1);
+      if (inputChanged) {
+        setCountWrongAnswer(countWrongAnswer + 1);
+        setInputChanged(false);
+      }
     }
-  }, [userInput, result, countCorrect, countWrong]);
+  }, [userInput, result, countCorrectAnswer, countWrongAnswer, inputChanged]);
 
-  const getExeAmount = useCallback(() => {
-    const eA = document.getElementById("selectAmount").value;
-    // console.log("eA: ", eA);
-    setExeAmount(eA);
+  const getExeAmount = useCallback((event) => {
+    setExeAmount(event?.target?.value || 1);
+    // handleNext(event);
   }, []);
 
   useEffect(() => {
-    getEquation();
     getExeAmount();
-  }, [getEquation, getExeAmount]);
+  }, [getExeAmount]);
+
+  useEffect(() => {
+    getEquation();
+  }, [getEquation]);
 
   return (
     <div className="game">
       <div className="game-board">
         <div>
-          <SetUp onClick={getExeAmount}></SetUp>
-          <div id="board" className="board-row">
-            <Exercise
-              e={getInput}
-              value={userInput}
-              value2={resultColor}
-              value3={correctAnswer}
-              randomNrs1={randomNrs[0]}
-              randomNrs2={randomNrs[1]}
-              operator={mathOperator}
-              focus={autoFocus}
-            ></Exercise>
-            {/* {() => {
-              for (let i = 0; i < exeAmount; i++) {
-                console.log("i: ", i);
-                return (
-                  <Exercise
-                    e={getInput}
-                    value={userInput}
-                    value2={resultColor}
-                    value3={correctAnswer}
-                    randomNrs1={randomNrs[0]}
-                    randomNrs2={randomNrs[1]}
-                    operator={mathOperator}
-                  ></Exercise>
-                );
-              }
-            }} */}
+          <SetUp eventHandler={getExeAmount}></SetUp>
+          <div>
+            <table id="board" className="board-row">
+              <Exercise
+                onChange={getInput}
+                value={userInput}
+                newColor={resultColor}
+                CheckMarkChild={correctAnswer}
+                randomNrs1={randomNrs[0]}
+                randomNrs2={randomNrs[1]}
+                operator={mathOperator}
+                focus={autoFocus}
+              ></Exercise>
+            </table>
           </div>
         </div>
       </div>
@@ -133,6 +134,11 @@ export const Game = () => {
         <button className="gameButtons" onClick={() => handleNext()}>
           NEXT
         </button>
+        <Stats
+          total={countTotal}
+          correct={countCorrectAnswer}
+          wrong={countWrongAnswer}
+        ></Stats>
       </div>
     </div>
   );
