@@ -1,5 +1,9 @@
+.game-info {
+  margin-left: 20px;
+}
+
 .gameButtons {
   margin-left: 10px;
   font-size: 17px;
-  margin-top: 5px;
+  margin-top: 15px;
 }

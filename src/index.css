@@ -1,6 +1,6 @@
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 20px;
+  margin: 30px;
 }
 
 .board-row:after {
@@ -20,10 +20,6 @@ body {
 .game {
   display: flex;
   flex-direction: row;
-}
-
-.game-info {
-  margin-left: 20px;
 }
 
 button:focus {

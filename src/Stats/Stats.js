@@ -1,9 +1,9 @@
 import React from "react";
-// import "./SetUp.css";
+import "./Stats.css";
 
 export const Stats = ({ total, correct, wrong }) => {
   return (
-    <div>
+    <div className="stats">
       <p>Total: {total}</p>
       <p>Correct: {correct}</p>
       <p>Wrong: {wrong}</p>
