@@ -20,17 +20,18 @@ export const Game = () => {
   const [inputChanged, setInputChanged] = useState(false);
   const [result, setResults] = useState();
   const [resultColor, setResultColor] = useState("black");
+  const [answered, setAnswered] = useState(0);
+  const [alreadyAnswered, setAlreadyAnswered] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState(false);
   const [countCorrectAnswer, setCountCorrectAswer] = useState(0);
   const [countWrongAnswer, setCountWrongAnswer] = useState(0);
-  // const [autoFocus, setAutoFocus] = useState("resSq");
-  // console.log("autoFocus: ", autoFocus);
   const nextRef = useRef(null);
   const inputRef = useRef(null);
 
   const getEquation = useCallback(() => {
     const operator = getOperator();
     setMathOperator(operator);
+    setAlreadyAnswered(false);
     if (operator === "+") {
       const randomN1 = Math.floor(Math.random() * 20) + 1;
       const randomN2 = Math.floor(Math.random() * 20) + 1;
@@ -69,30 +70,33 @@ export const Game = () => {
       setCorrectAnswer(false);
       setResultColor("black");
       inputRef.current.focus();
-      // setAutoFocus("resSq");
     }
     return <div id="board" className="board-row"></div>;
   }, [exeAmount, countTotal, getEquation]);
 
   const handleCheck = useCallback(() => {
+    if (!alreadyAnswered) {
+      setAnswered(answered + 1);
+      setAlreadyAnswered(true);
+    }
     if (userInput === `${result}`) {
       setCorrectAnswer(true);
       setResultColor("green");
       nextRef.current.focus();
-      if (inputChanged) {
+      if (inputChanged && !alreadyAnswered) {
         setCountCorrectAswer(countCorrectAnswer + 1);
         setInputChanged(false);
-        // setAutoFocus("next");
       }
     } else {
       setResultColor("red");
-      if (inputChanged) {
+      if (inputChanged && !alreadyAnswered) {
         setCountWrongAnswer(countWrongAnswer + 1);
         setInputChanged(false);
-        // setAutoFocus("next");
       }
     }
   }, [
+    answered,
+    alreadyAnswered,
     userInput,
     result,
     countCorrectAnswer,
@@ -130,35 +134,27 @@ export const Game = () => {
               randomNrs1={randomNrs[0]}
               randomNrs2={randomNrs[1]}
               operator={mathOperator}
-              // focus={autoFocus === "resSq" ? true : false}
             ></Exercise>
           </div>
         </div>
       </div>
       <div className="game-info">
-        <GameButtons
-          onClick={handleCheck}
-          disabled={!inputChanged}
-          // autoFocus={false}
-        >
+        <GameButtons onClick={handleCheck} disabled={!inputChanged}>
           CHECK
         </GameButtons>
         <GameButtons
           buttonRef={nextRef}
           onClick={handleNext}
           disabled={exeAmount > countTotal ? false : true}
-          // autoFocus={autoFocus === "next" ? true : false}
-          // focus={!inputChanged}
         >
           NEXT
         </GameButtons>
-        {/* <button autoFocus={!inputChanged}>OK</button> */}
         <Stats
           total={countTotal}
           correct={countCorrectAnswer}
           wrong={countWrongAnswer}
         ></Stats>
-        {exeAmount === countTotal && (
+        {!(answered < exeAmount) && (
           <p style={{ color: "green", fontWeight: "bold" }}>
             Well Done - Completed!
           </p>
