@@ -9,12 +9,13 @@ export const Exercise = ({
   randomNrs1,
   randomNrs2,
   operator,
+  inputRef,
   onChange,
   value,
   newColor,
   onKeyPress,
   CheckMarkChild,
-  focus,
+  // focus,
 }) => {
   return (
     <div className="equation">
@@ -23,11 +24,12 @@ export const Exercise = ({
       <NumberSquares>{randomNrs2}</NumberSquares>
       <MathSigns>=</MathSigns>
       <ResultSquare
+        inputRef={inputRef}
         onChange={onChange}
         value={value}
         newColor={newColor}
         onKeyPress={onKeyPress}
-        focus={focus}
+        // focus={focus}
       />
       <CheckMark>{CheckMarkChild && "✅"}</CheckMark>
     </div>

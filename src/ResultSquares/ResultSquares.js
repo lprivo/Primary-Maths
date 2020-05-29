@@ -2,16 +2,18 @@ import React from "react";
 import "./ResultSquare.css";
 
 export const ResultSquare = ({
+  inputRef,
   onChange,
   value,
   newColor,
   onKeyPress,
-  focus,
+  // focus,
 }) => {
   return (
     <input
       type="text"
       className="resSquare"
+      ref={inputRef}
       placeholder="?"
       onChange={onChange}
       value={value}
@@ -22,7 +24,7 @@ export const ResultSquare = ({
           onKeyPress();
         }
       }}
-      autoFocus={focus}
+      autoFocus
     />
   );
 };

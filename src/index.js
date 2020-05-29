@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import SetUp from "./SetUp";
 import Exercise from "./Exercise";
 import Stats from "./Stats";
+import GameButtons from "./GameButtons";
 
 const getOperator = () => {
   const operator = ["+", "-", "*"];
@@ -12,9 +13,7 @@ const getOperator = () => {
 
 export const Game = () => {
   const [exeAmount, setExeAmount] = useState(0);
-  console.log("exeAmount: ", exeAmount);
   const [countTotal, setCountTotal] = useState(1);
-  console.log("countTotal: ", countTotal);
   const [randomNrs, setRandomNrs] = useState([]);
   const [mathOperator, setMathOperator] = useState();
   const [userInput, setUserInput] = useState("");
@@ -24,7 +23,10 @@ export const Game = () => {
   const [correctAnswer, setCorrectAnswer] = useState(false);
   const [countCorrectAnswer, setCountCorrectAswer] = useState(0);
   const [countWrongAnswer, setCountWrongAnswer] = useState(0);
-  const [autoFocus, setAutoFocus] = useState(true);
+  // const [autoFocus, setAutoFocus] = useState("resSq");
+  // console.log("autoFocus: ", autoFocus);
+  const nextRef = useRef(null);
+  const inputRef = useRef(null);
 
   const getEquation = useCallback(() => {
     const operator = getOperator();
@@ -66,11 +68,9 @@ export const Game = () => {
       setUserInput("");
       setCorrectAnswer(false);
       setResultColor("black");
-      // setAutoFocus(true);
+      inputRef.current.focus();
+      // setAutoFocus("resSq");
     }
-    // else {
-    //   alert("Completed!");
-    // }
     return <div id="board" className="board-row"></div>;
   }, [exeAmount, countTotal, getEquation]);
 
@@ -78,22 +78,31 @@ export const Game = () => {
     if (userInput === `${result}`) {
       setCorrectAnswer(true);
       setResultColor("green");
+      nextRef.current.focus();
       if (inputChanged) {
         setCountCorrectAswer(countCorrectAnswer + 1);
         setInputChanged(false);
+        // setAutoFocus("next");
       }
     } else {
       setResultColor("red");
       if (inputChanged) {
         setCountWrongAnswer(countWrongAnswer + 1);
         setInputChanged(false);
+        // setAutoFocus("next");
       }
     }
-  }, [userInput, result, countCorrectAnswer, countWrongAnswer, inputChanged]);
+  }, [
+    userInput,
+    result,
+    countCorrectAnswer,
+    countWrongAnswer,
+    inputChanged,
+    nextRef,
+  ]);
 
   const getExeAmount = useCallback((event) => {
-    setExeAmount(event?.target?.value || 1);
-    // handleNext(event);
+    setExeAmount(event?.target?.value || 10);
   }, []);
 
   useEffect(() => {
@@ -112,6 +121,7 @@ export const Game = () => {
           <div id="board" className="board-row">
             {/* css flexi boxes! */}
             <Exercise
+              inputRef={inputRef}
               onChange={getInput}
               value={userInput}
               newColor={resultColor}
@@ -120,32 +130,39 @@ export const Game = () => {
               randomNrs1={randomNrs[0]}
               randomNrs2={randomNrs[1]}
               operator={mathOperator}
-              focus={autoFocus}
+              // focus={autoFocus === "resSq" ? true : false}
             ></Exercise>
           </div>
         </div>
       </div>
       <div className="game-info">
-        <button
-          className="gameButtons"
-          type="submit"
-          onClick={() => handleCheck()}
+        <GameButtons
+          onClick={handleCheck}
           disabled={!inputChanged}
+          // autoFocus={false}
         >
           CHECK
-        </button>
-        <button
-          className="gameButtons"
-          onClick={() => handleNext()}
+        </GameButtons>
+        <GameButtons
+          buttonRef={nextRef}
+          onClick={handleNext}
           disabled={exeAmount > countTotal ? false : true}
+          // autoFocus={autoFocus === "next" ? true : false}
+          // focus={!inputChanged}
         >
           NEXT
-        </button>
+        </GameButtons>
+        {/* <button autoFocus={!inputChanged}>OK</button> */}
         <Stats
           total={countTotal}
           correct={countCorrectAnswer}
           wrong={countWrongAnswer}
         ></Stats>
+        {exeAmount === countTotal && (
+          <p style={{ color: "green", fontWeight: "bold" }}>
+            Well Done - Completed!
+          </p>
+        )}
       </div>
     </div>
   );
