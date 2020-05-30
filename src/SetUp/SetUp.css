@@ -1,15 +1,20 @@
-.nrSquare {
+.setUp {
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-family: "Futura";
-  font-size: 40px;
+  font-size: 16px;
   font-weight: bold;
-  line-height: 52px;
-  height: 52px;
   margin-right: -1px;
   margin-top: -1px;
-  padding: 0;
+  margin-bottom: 20px;
+  padding: 5px;
   text-align: center;
-  width: 52px;
+}
+
+select {
+  margin-left: 10px;
+}
+
+button {
+  margin-left: 10px;
 }
