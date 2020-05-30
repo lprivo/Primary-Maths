@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import NumberSquares from "./NumberSquares";
-import ResultSquare from "./ResultSquares";
-import MathSigns from "./MathSigns";
-import CheckMark from "./CheckMark";
+import SetUp from "./SetUp";
+import Exercise from "./Exercise";
+import Stats from "./Stats";
+import GameButtons from "./GameButtons";
 
 const getOperator = () => {
   const operator = ["+", "-", "*"];
@@ -12,17 +12,26 @@ const getOperator = () => {
 };
 
 export const Game = () => {
-  const [count, setCount] = useState(1);
+  const [exeAmount, setExeAmount] = useState(0);
+  const [countTotal, setCountTotal] = useState(1);
   const [randomNrs, setRandomNrs] = useState([]);
   const [mathOperator, setMathOperator] = useState();
   const [userInput, setUserInput] = useState("");
+  const [inputChanged, setInputChanged] = useState(false);
   const [result, setResults] = useState();
   const [resultColor, setResultColor] = useState("black");
+  const [answered, setAnswered] = useState(0);
+  const [alreadyAnswered, setAlreadyAnswered] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState(false);
+  const [countCorrectAnswer, setCountCorrectAswer] = useState(0);
+  const [countWrongAnswer, setCountWrongAnswer] = useState(0);
+  const nextRef = useRef(null);
+  const inputRef = useRef(null);
 
   const getEquation = useCallback(() => {
     const operator = getOperator();
     setMathOperator(operator);
+    setAlreadyAnswered(false);
     if (operator === "+") {
       const randomN1 = Math.floor(Math.random() * 20) + 1;
       const randomN2 = Math.floor(Math.random() * 20) + 1;
@@ -46,57 +55,110 @@ export const Game = () => {
     }
   }, []);
 
-  useEffect(() => {
-    getEquation();
-  }, [getEquation]);
-
   const getInput = useCallback((event) => {
     setUserInput(event.target.value);
+    setInputChanged(true);
     setCorrectAnswer(false);
     setResultColor("black");
   }, []);
 
   const handleNext = useCallback(() => {
-    setCount(count + 1);
-    getEquation();
-    setUserInput("");
-    setCorrectAnswer(false);
-    setResultColor("black");
+    if (countTotal < exeAmount) {
+      setCountTotal(countTotal + 1);
+      getEquation();
+      setUserInput("");
+      setCorrectAnswer(false);
+      setResultColor("black");
+      inputRef.current.focus();
+    }
     return <div id="board" className="board-row"></div>;
-  }, [count, getEquation]);
+  }, [exeAmount, countTotal, getEquation]);
 
   const handleCheck = useCallback(() => {
+    if (!alreadyAnswered) {
+      setAnswered(answered + 1);
+      setAlreadyAnswered(true);
+    }
     if (userInput === `${result}`) {
       setCorrectAnswer(true);
       setResultColor("green");
+      nextRef.current.focus();
+      if (inputChanged && !alreadyAnswered) {
+        setCountCorrectAswer(countCorrectAnswer + 1);
+        setInputChanged(false);
+      }
     } else {
       setResultColor("red");
+      if (inputChanged && !alreadyAnswered) {
+        setCountWrongAnswer(countWrongAnswer + 1);
+        setInputChanged(false);
+      }
     }
-  }, [userInput, result]);
+  }, [
+    answered,
+    alreadyAnswered,
+    userInput,
+    result,
+    countCorrectAnswer,
+    countWrongAnswer,
+    inputChanged,
+    nextRef,
+  ]);
+
+  const getExeAmount = useCallback((event) => {
+    setExeAmount(event?.target?.value || 10);
+  }, []);
+
+  useEffect(() => {
+    getExeAmount();
+  }, [getExeAmount]);
+
+  useEffect(() => {
+    getEquation();
+  }, [getEquation]);
 
   return (
     <div className="game">
       <div className="game-board">
         <div>
+          <SetUp eventHandler={getExeAmount}></SetUp>
           <div id="board" className="board-row">
-            <NumberSquares>{randomNrs[0]}</NumberSquares>
-            <MathSigns>{mathOperator}</MathSigns>
-            <NumberSquares>{randomNrs[1]}</NumberSquares>
-            <MathSigns>=</MathSigns>
-            <ResultSquare
+            {/* css flexi boxes! */}
+            <Exercise
+              inputRef={inputRef}
               onChange={getInput}
               value={userInput}
               newColor={resultColor}
-            />
-            <CheckMark>{correctAnswer && "✅"}</CheckMark>
+              onKeyPress={handleCheck}
+              CheckMarkChild={correctAnswer}
+              randomNrs1={randomNrs[0]}
+              randomNrs2={randomNrs[1]}
+              operator={mathOperator}
+            ></Exercise>
           </div>
         </div>
       </div>
       <div className="game-info">
-        <button id="checkButton" type="submit" onClick={() => handleCheck()}>
+        <GameButtons onClick={handleCheck} disabled={!inputChanged}>
           CHECK
-        </button>
-        <button onClick={() => handleNext()}>NEXT</button>
+        </GameButtons>
+        <GameButtons
+          buttonRef={nextRef}
+          onClick={handleNext}
+          disabled={exeAmount > countTotal ? false : true}
+        >
+          NEXT
+        </GameButtons>
+        <Stats
+          total={countTotal}
+          correct={countCorrectAnswer}
+          wrong={countWrongAnswer}
+        ></Stats>
+        {!(answered < exeAmount) && (
+          <p style={{ color: "green", fontWeight: "bold" }}>
+            Well Done - Completed!
+          </p>
+        )}
       </div>
     </div>
   );
