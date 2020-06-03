@@ -19,9 +19,9 @@ export const Exercise = ({
 }) => {
   return (
     <div className="equation">
-      <NumberSquares>{randomNrs1}</NumberSquares>
+      <NumberSquares className={"nrSquare"}>{randomNrs1}</NumberSquares>
       <MathSigns>{operator}</MathSigns>
-      <NumberSquares>{randomNrs2}</NumberSquares>
+      <NumberSquares className={"nrSquare"}>{randomNrs2}</NumberSquares>
       <MathSigns>=</MathSigns>
       <ResultSquare
         inputRef={inputRef}
@@ -30,7 +30,7 @@ export const Exercise = ({
         newColor={newColor}
         onKeyPress={onKeyPress}
         // focus={focus}
-      />
+      ></ResultSquare>
       <CheckMark>{CheckMarkChild && "✅"}</CheckMark>
     </div>
   );

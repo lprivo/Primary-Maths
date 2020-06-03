@@ -4,6 +4,7 @@ import SetUp from "../SetUp";
 import Exercise from "../Exercise";
 import Stats from "../Stats";
 import GameButtons from "../GameButtons";
+import Counter from "../Counter";
 
 const getOperator = () => {
   const operator = ["+", "-", "*"];
@@ -118,46 +119,46 @@ export const Game = () => {
 
   return (
     <div className="game">
-      <div className="game-board">
-        <div>
+      <div className="equation-game">
+        <div className="game-board">
           <SetUp eventHandler={getExeAmount}></SetUp>
-          <div id="board" className="board-row">
-            {/* css flexi boxes! */}
-            <Exercise
-              inputRef={inputRef}
-              onChange={getInput}
-              value={userInput}
-              newColor={resultColor}
-              onKeyPress={handleCheck}
-              CheckMarkChild={correctAnswer}
-              randomNrs1={randomNrs[0]}
-              randomNrs2={randomNrs[1]}
-              operator={mathOperator}
-            ></Exercise>
-          </div>
+          <Exercise
+            inputRef={inputRef}
+            onChange={getInput}
+            value={userInput}
+            newColor={resultColor}
+            onKeyPress={handleCheck}
+            CheckMarkChild={correctAnswer}
+            randomNrs1={randomNrs[0]}
+            randomNrs2={randomNrs[1]}
+            operator={mathOperator}
+          ></Exercise>
+        </div>
+        <div className="game-info">
+          <GameButtons onClick={handleCheck} disabled={!inputChanged}>
+            CHECK
+          </GameButtons>
+          <GameButtons
+            buttonRef={nextRef}
+            onClick={handleNext}
+            disabled={exeAmount > countTotal ? false : true}
+          >
+            NEXT
+          </GameButtons>
+          <Stats
+            total={countTotal}
+            correct={countCorrectAnswer}
+            wrong={countWrongAnswer}
+          ></Stats>
+          {!(answered < exeAmount) && (
+            <p style={{ color: "green", fontWeight: "bold" }}>
+              Well Done - Completed!
+            </p>
+          )}
         </div>
       </div>
-      <div className="game-info">
-        <GameButtons onClick={handleCheck} disabled={!inputChanged}>
-          CHECK
-        </GameButtons>
-        <GameButtons
-          buttonRef={nextRef}
-          onClick={handleNext}
-          disabled={exeAmount > countTotal ? false : true}
-        >
-          NEXT
-        </GameButtons>
-        <Stats
-          total={countTotal}
-          correct={countCorrectAnswer}
-          wrong={countWrongAnswer}
-        ></Stats>
-        {!(answered < exeAmount) && (
-          <p style={{ color: "green", fontWeight: "bold" }}>
-            Well Done - Completed!
-          </p>
-        )}
+      <div className="counter-game">
+        <Counter></Counter>
       </div>
     </div>
   );

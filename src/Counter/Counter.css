@@ -1,0 +1,43 @@
+.counter {
+  background: #fff;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.counterSquare {
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-family: "Futura";
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 52px;
+  height: 52px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 40px;
+}
+
+.randomSquare {
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-family: "Futura";
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 52px;
+  height: 52px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 100px;
+}
+
+.stepdigitboard {
+  float: right;
+  margin-right: 20px;
+  border: 1px solid #999;
+}

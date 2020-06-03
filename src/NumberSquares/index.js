@@ -1,3 +1,3 @@
-import { NumberSquare } from "./NumberSquares";
+import NumberSquare from "./NumberSquares";
 
 export default NumberSquare;

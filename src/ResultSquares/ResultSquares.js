@@ -7,7 +7,6 @@ export const ResultSquare = ({
   value,
   newColor,
   onKeyPress,
-  // focus,
 }) => {
   return (
     <input
@@ -20,7 +19,6 @@ export const ResultSquare = ({
       style={{ color: newColor }}
       onKeyPress={(event) => {
         if (event.key === "Enter") {
-          console.log("Enter");
           onKeyPress();
         }
       }}
