@@ -2,6 +2,7 @@ import React from "react";
 import "./GameButtons.css";
 
 export const GameButtons = ({
+  className,
   buttonRef,
   onClick,
   disabled,
@@ -10,9 +11,8 @@ export const GameButtons = ({
 }) => {
   return (
     <button
-      className="gameButtons"
+      className={className}
       ref={buttonRef}
-      // tabIndex="-1"
       onClick={onClick}
       disabled={disabled}
       autoFocus={focus}

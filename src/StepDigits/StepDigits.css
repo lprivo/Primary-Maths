@@ -11,5 +11,13 @@
 .stepdigitrow {
   margin: 2px;
   padding: 2px;
-  /* float: right; */
+}
+
+.plusminusButtons {
+  margin-left: 8px;
+  margin-right: 8px;
+  font-size: 20px;
+  margin-top: 15px;
+  font-weight: bold;
+  width: 33px;
 }

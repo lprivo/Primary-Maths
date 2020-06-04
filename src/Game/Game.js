@@ -135,10 +135,15 @@ export const Game = () => {
           ></Exercise>
         </div>
         <div className="game-info">
-          <GameButtons onClick={handleCheck} disabled={!inputChanged}>
+          <GameButtons
+            className={"gameButtons"}
+            onClick={handleCheck}
+            disabled={!inputChanged}
+          >
             CHECK
           </GameButtons>
           <GameButtons
+            className={"gameButtons"}
             buttonRef={nextRef}
             onClick={handleNext}
             disabled={exeAmount > countTotal ? false : true}

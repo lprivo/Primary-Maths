@@ -4,17 +4,24 @@ import NumberSquares from "../NumberSquares";
 import MathSigns from "../MathSigns";
 import StepDigits from "../StepDigits";
 import CheckMark from "../CheckMark";
+import SetUp from "../SetUp";
+import GameButtons from "../GameButtons";
 
 export const Counter = () => {
-  const [counterRandom, setCounterRandom] = useState(0);
-  const [digit1, setDigit1] = useState(0);
-  const [digit10, setDigit10] = useState(0);
-  const [digit100, setDigit100] = useState(0);
-  const [digit1000, setDigit1000] = useState(0);
+  const [exeAmount, setExeAmount] = useState(0);
+  console.log("exeAmount: ", exeAmount);
+  const [Completed, setCompleted] = useState(0);
+  console.log("Completed: ", Completed);
+  const [countTotal, setCountTotal] = useState(1);
+  console.log("countTotal: ", countTotal);
+  const [counterRandom, setCounterRandom] = useState();
+  const [answer, setAnswer] = useState(0);
+  const [digits, setDigits] = useState([]);
   const [equalNrs, setEqualNrs] = useState(false);
 
   const getCounterRandom = useCallback(() => {
     setCounterRandom(Math.floor(Math.random() * 10000));
+    setDigits(["0", "0", "0", "0"]);
   }, []);
 
   useEffect(() => {
@@ -22,104 +29,155 @@ export const Counter = () => {
   }, [getCounterRandom]);
 
   const checkEqualNrs = useCallback(() => {
-    if (
-      counterRandom ===
-      digit1000 * 1000 + digit100 * 100 + digit10 * 10 + digit1
-    ) {
+    if (counterRandom === answer) {
       setEqualNrs(true);
+      setCompleted(Completed + 1);
     } else {
       setEqualNrs(false);
     }
-  }, [counterRandom, digit1000, digit100, digit10, digit1]);
+  }, [counterRandom, answer, Completed]);
+
+  const handleClick = useCallback(
+    (operator, number) => {
+      operator ? setAnswer(answer + number) : setAnswer(answer - number);
+    },
+    [answer]
+  );
+
+  const leadingZeros = (number) => {
+    let zeros = "";
+    for (let i = `${number}`.length; i < 4; i++) {
+      zeros += "0";
+    }
+    return zeros + `${number}`;
+  };
+
+  const convertToString = useCallback(() => {
+    const answerLZ = leadingZeros(answer);
+    setDigits([
+      `${answerLZ}`[0],
+      `${answerLZ}`[1],
+      `${answerLZ}`[2],
+      `${answerLZ}`[3],
+    ]);
+  }, [answer]);
 
   useEffect(() => {
     checkEqualNrs();
-  }, [checkEqualNrs]);
+    convertToString();
+  }, [convertToString]);
 
-  const handleStepDigit = useCallback((operator, setDigit, digit) => {
-    if (operator === "+") {
-      digit < 9 ? setDigit(digit + 1) : setDigit(0);
+  const handleNext = useCallback(() => {
+    if (countTotal < exeAmount) {
+      setCountTotal(countTotal + 1);
+      setEqualNrs(false);
+      getCounterRandom();
+      setAnswer(0);
     }
-    if (operator === "-") {
-      digit > 0 ? setDigit(digit - 1) : setDigit(9);
-    }
+  }, [exeAmount, countTotal, getCounterRandom]);
+
+  const getExeAmount = useCallback((event) => {
+    setExeAmount(event?.target?.value || 10);
   }, []);
 
+  useEffect(() => {
+    getExeAmount();
+  }, [getExeAmount]);
+
   return (
-    <div className="counter">
-      <NumberSquares className={"randomSquare"}>{counterRandom}</NumberSquares>
-      <MathSigns>=</MathSigns>
-      <NumberSquares
-        className={"counterSquare"}
-        newColor={equalNrs && "green"}
-        onChange={checkEqualNrs}
-      >
-        {digit1000}
-      </NumberSquares>
-      <NumberSquares
-        className={"counterSquare"}
-        newColor={equalNrs && "green"}
-        onChange={checkEqualNrs}
-      >
-        {digit100}
-      </NumberSquares>
-      <NumberSquares
-        className={"counterSquare"}
-        newColor={equalNrs && "green"}
-        onChange={checkEqualNrs}
-      >
-        {digit10}
-      </NumberSquares>
-      <NumberSquares
-        className={"counterSquare"}
-        newColor={equalNrs && "green"}
-        onChange={checkEqualNrs}
-      >
-        {digit1}
-      </NumberSquares>
-      <CheckMark>{equalNrs && "✅"}</CheckMark>
+    <div>
+      <div className="counterboard">
+        <SetUp eventHandler={getExeAmount}></SetUp>
+        <div className="counterSquares">
+          <NumberSquares className={"randomSquare"}>
+            {counterRandom}
+          </NumberSquares>
+          <MathSigns>=</MathSigns>
+          <NumberSquares
+            className={"counterSquare"}
+            newColor={equalNrs && "green"}
+          >
+            {digits[0]}
+          </NumberSquares>
+          <NumberSquares
+            className={"counterSquare"}
+            newColor={equalNrs && "green"}
+          >
+            {digits[1]}
+          </NumberSquares>
+          <NumberSquares
+            className={"counterSquare"}
+            newColor={equalNrs && "green"}
+          >
+            {digits[2]}
+          </NumberSquares>
+          <NumberSquares
+            className={"counterSquare"}
+            newColor={equalNrs && "green"}
+          >
+            {digits[3]}
+          </NumberSquares>
+          <CheckMark>{equalNrs && "✅"}</CheckMark>
+          <GameButtons
+            className={"gameButtons"}
+            onClick={handleNext}
+            disabled={exeAmount > countTotal ? false : true}
+          >
+            NEXT
+          </GameButtons>
+        </div>
+        {!(Completed < exeAmount) && (
+          <p style={{ color: "green", fontWeight: "bold" }}>
+            Well Done - Completed!
+          </p>
+        )}
+      </div>
       <div className="stepdigitboard">
         <StepDigits
           onClickMinus={() => {
-            handleStepDigit("-", setDigit1000, digit1000);
+            handleClick(false, 1000);
           }}
           onClickPlus={() => {
-            handleStepDigit("+", setDigit1000, digit1000);
+            handleClick(true, 1000);
           }}
-          disabled={equalNrs && true}
+          disabledMinus={(equalNrs || answer - 1000 < 0) && true}
+          disabledPlus={(equalNrs || answer + 1000 > 9999) && true}
         >
           1000
         </StepDigits>
         <StepDigits
           onClickMinus={() => {
-            handleStepDigit("-", setDigit100, digit100);
+            handleClick(false, 100);
           }}
           onClickPlus={() => {
-            handleStepDigit("+", setDigit100, digit100);
+            handleClick(true, 100);
           }}
-          disabled={equalNrs && true}
+          disabledMinus={(equalNrs || answer - 100 < 0) && true}
+          disabledPlus={(equalNrs || answer + 100 > 9999) && true}
         >
           100
         </StepDigits>
         <StepDigits
           onClickMinus={() => {
-            handleStepDigit("-", setDigit10, digit10);
+            handleClick(false, 10);
           }}
           onClickPlus={() => {
-            handleStepDigit("+", setDigit10, digit10);
+            handleClick(true, 10);
           }}
-          disabled={equalNrs && true}
+          disabledMinus={(equalNrs || answer - 10 < 0) && true}
+          disabledPlus={(equalNrs || answer + 10 > 9999) && true}
         >
           10
         </StepDigits>
         <StepDigits
           onClickMinus={() => {
-            handleStepDigit("-", setDigit1, digit1);
+            handleClick(false, 1);
           }}
           onClickPlus={() => {
-            handleStepDigit("+", setDigit1, digit1);
+            handleClick(true, 1);
           }}
-          disabled={equalNrs && true}
+          disabledMinus={(equalNrs || answer - 1 < 0) && true}
+          disabledPlus={(equalNrs || answer + 1 > 9999) && true}
         >
           1
         </StepDigits>
