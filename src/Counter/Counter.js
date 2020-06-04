@@ -9,11 +9,8 @@ import GameButtons from "../GameButtons";
 
 export const Counter = () => {
   const [exeAmount, setExeAmount] = useState(0);
-  console.log("exeAmount: ", exeAmount);
   const [Completed, setCompleted] = useState(0);
-  console.log("Completed: ", Completed);
   const [countTotal, setCountTotal] = useState(1);
-  console.log("countTotal: ", countTotal);
   const [counterRandom, setCounterRandom] = useState();
   const [answer, setAnswer] = useState(0);
   const [digits, setDigits] = useState([]);
