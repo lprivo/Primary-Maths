@@ -9,7 +9,7 @@ import GameButtons from "../GameButtons";
 
 export const Counter = () => {
   const [exeAmount, setExeAmount] = useState(0);
-  const [Completed, setCompleted] = useState(0);
+  const [completed, setCompleted] = useState(0);
   const [countTotal, setCountTotal] = useState(1);
   const [counterRandom, setCounterRandom] = useState();
   const [answer, setAnswer] = useState(0);
@@ -28,11 +28,11 @@ export const Counter = () => {
   const checkEqualNrs = useCallback(() => {
     if (counterRandom === answer) {
       setEqualNrs(true);
-      setCompleted(Completed + 1);
+      setCompleted(completed + 1);
     } else {
       setEqualNrs(false);
     }
-  }, [counterRandom, answer, Completed]);
+  }, [counterRandom, answer, completed]);
 
   const handleClick = useCallback(
     (operator, number) => {
@@ -52,16 +52,14 @@ export const Counter = () => {
   const convertToString = useCallback(() => {
     const answerLZ = leadingZeros(answer);
     setDigits([
-      `${answerLZ}`[0],
-      `${answerLZ}`[1],
-      `${answerLZ}`[2],
-      `${answerLZ}`[3],
+      ...answerLZ, // = setDigits([`${answerLZ}`[0],`${answerLZ}`[1],`${answerLZ}`[2],`${answerLZ}`[3],])
     ]);
   }, [answer]);
 
   useEffect(() => {
     checkEqualNrs();
     convertToString();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [convertToString]);
 
   const handleNext = useCallback(() => {
@@ -123,7 +121,7 @@ export const Counter = () => {
             NEXT
           </GameButtons>
         </div>
-        {!(Completed < exeAmount) && (
+        {!(completed < exeAmount) && (
           <p style={{ color: "green", fontWeight: "bold" }}>
             Well Done - Completed!
           </p>
@@ -137,8 +135,8 @@ export const Counter = () => {
           onClickPlus={() => {
             handleClick(true, 1000);
           }}
-          disabledMinus={(equalNrs || answer - 1000 < 0) && true}
-          disabledPlus={(equalNrs || answer + 1000 > 9999) && true}
+          disabledMinus={(equalNrs || answer < 1000) && true}
+          disabledPlus={(equalNrs || answer > 8999) && true}
         >
           1000
         </StepDigits>
@@ -149,8 +147,8 @@ export const Counter = () => {
           onClickPlus={() => {
             handleClick(true, 100);
           }}
-          disabledMinus={(equalNrs || answer - 100 < 0) && true}
-          disabledPlus={(equalNrs || answer + 100 > 9999) && true}
+          disabledMinus={(equalNrs || answer < 100) && true}
+          disabledPlus={(equalNrs || answer > 9899) && true}
         >
           100
         </StepDigits>
@@ -161,8 +159,8 @@ export const Counter = () => {
           onClickPlus={() => {
             handleClick(true, 10);
           }}
-          disabledMinus={(equalNrs || answer - 10 < 0) && true}
-          disabledPlus={(equalNrs || answer + 10 > 9999) && true}
+          disabledMinus={(equalNrs || answer < 10) && true}
+          disabledPlus={(equalNrs || answer > 9989) && true}
         >
           10
         </StepDigits>
@@ -173,8 +171,8 @@ export const Counter = () => {
           onClickPlus={() => {
             handleClick(true, 1);
           }}
-          disabledMinus={(equalNrs || answer - 1 < 0) && true}
-          disabledPlus={(equalNrs || answer + 1 > 9999) && true}
+          disabledMinus={(equalNrs || answer < 1) && true}
+          disabledPlus={(equalNrs || answer > 9998) && true}
         >
           1
         </StepDigits>
