@@ -29,15 +29,31 @@
   font-weight: bold;
   line-height: 52px;
   height: 52px;
-  margin-right: -1px;
-  margin-top: -1px;
+  margin-right: 0px;
+  margin-top: 0px;
   padding: 0;
   text-align: center;
-  width: 100px;
+  width: 120px;
 }
 
 .stepdigitboard {
-  float: right;
+  display: flex;
+  flex-direction: column;
   margin-right: 20px;
   border: 1px solid #999;
+  width: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.counterboard {
+  float: left;
+  margin: 10px;
+  padding: 10px;
+  width: 400px;
+}
+
+.counterSquares {
+  margin-top: 60px;
+  width: 400px;
 }

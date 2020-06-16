@@ -46,3 +46,7 @@ button:active {
   width: 650px;
   height: 250px;
 }
+
+.gameButtons {
+  width: auto;
+}

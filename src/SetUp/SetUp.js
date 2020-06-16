@@ -6,7 +6,7 @@ export const SetUp = ({ eventHandler }) => {
     <form className="setUp" action="">
       <div>
         Please select the number of exercises:
-        <select id="selectAmount" defaultValue={10} onChange={eventHandler}>
+        <select defaultValue={10} onChange={eventHandler}>
           <option value="1">1</option>
           <option value="3">3</option>
           <option value="5">5</option>
