@@ -6,6 +6,7 @@ import StepDigits from "../StepDigits";
 import CheckMark from "../CheckMark";
 import SetUp from "../SetUp";
 import GameButtons from "../GameButtons";
+import "../Stats/Stats.css";
 
 export const Counter = () => {
   const [exeAmount, setExeAmount] = useState(0);
@@ -35,8 +36,8 @@ export const Counter = () => {
   }, [counterRandom, answer, completed]);
 
   const handleClick = useCallback(
-    (operator, number) => {
-      operator ? setAnswer(answer + number) : setAnswer(answer - number);
+    (number) => {
+      setAnswer(answer + number);
     },
     [answer]
   );
@@ -130,10 +131,10 @@ export const Counter = () => {
       <div className="stepdigitboard">
         <StepDigits
           onClickMinus={() => {
-            handleClick(false, 1000);
+            handleClick(-1000);
           }}
           onClickPlus={() => {
-            handleClick(true, 1000);
+            handleClick(1000);
           }}
           disabledMinus={(equalNrs || answer < 1000) && true}
           disabledPlus={(equalNrs || answer > 8999) && true}
@@ -142,10 +143,10 @@ export const Counter = () => {
         </StepDigits>
         <StepDigits
           onClickMinus={() => {
-            handleClick(false, 100);
+            handleClick(-100);
           }}
           onClickPlus={() => {
-            handleClick(true, 100);
+            handleClick(100);
           }}
           disabledMinus={(equalNrs || answer < 100) && true}
           disabledPlus={(equalNrs || answer > 9899) && true}
@@ -154,10 +155,10 @@ export const Counter = () => {
         </StepDigits>
         <StepDigits
           onClickMinus={() => {
-            handleClick(false, 10);
+            handleClick(-10);
           }}
           onClickPlus={() => {
-            handleClick(true, 10);
+            handleClick(10);
           }}
           disabledMinus={(equalNrs || answer < 10) && true}
           disabledPlus={(equalNrs || answer > 9989) && true}
@@ -166,16 +167,19 @@ export const Counter = () => {
         </StepDigits>
         <StepDigits
           onClickMinus={() => {
-            handleClick(false, 1);
+            handleClick(-1);
           }}
           onClickPlus={() => {
-            handleClick(true, 1);
+            handleClick(1);
           }}
           disabledMinus={(equalNrs || answer < 1) && true}
           disabledPlus={(equalNrs || answer > 9998) && true}
         >
           1
         </StepDigits>
+      </div>
+      <div className="stats" style={{ float: "right" }}>
+        <p>Total: {countTotal}</p>
       </div>
     </div>
   );
