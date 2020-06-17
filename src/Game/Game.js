@@ -162,7 +162,7 @@ export const Game = () => {
           )}
         </div>
       </div>
-      <div className="counter-game">
+      <div>
         <Counter></Counter>
       </div>
     </div>

@@ -64,13 +64,13 @@ export const Counter = () => {
   }, [convertToString]);
 
   const handleNext = useCallback(() => {
-    if (countTotal < exeAmount) {
+    if (completed < exeAmount) {
       setCountTotal(countTotal + 1);
       setEqualNrs(false);
       getCounterRandom();
       setAnswer(0);
     }
-  }, [exeAmount, countTotal, getCounterRandom]);
+  }, [completed, exeAmount, countTotal, getCounterRandom]);
 
   const getExeAmount = useCallback((event) => {
     setExeAmount(event?.target?.value || 10);
@@ -81,7 +81,7 @@ export const Counter = () => {
   }, [getExeAmount]);
 
   return (
-    <div>
+    <div className="counter-game">
       <div className="counterboard">
         <SetUp eventHandler={getExeAmount}></SetUp>
         <div className="counterSquares">
@@ -117,7 +117,7 @@ export const Counter = () => {
           <GameButtons
             className={"gameButtons"}
             onClick={handleNext}
-            disabled={exeAmount > countTotal ? false : true}
+            disabled={exeAmount > completed ? false : true}
           >
             NEXT
           </GameButtons>
@@ -179,7 +179,7 @@ export const Counter = () => {
         </StepDigits>
       </div>
       <div className="stats" style={{ float: "right" }}>
-        <p>Total: {countTotal}</p>
+        <p>Completed: {completed}</p>
       </div>
     </div>
   );
