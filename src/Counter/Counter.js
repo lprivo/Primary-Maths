@@ -115,7 +115,7 @@ export const Counter = () => {
           </NumberSquares>
           <CheckMark>{equalNrs && "✅"}</CheckMark>
           <GameButtons
-            className={"gameButtons"}
+            className={"cNexBtn"}
             onClick={handleNext}
             disabled={exeAmount > completed ? false : true}
           >
@@ -123,9 +123,7 @@ export const Counter = () => {
           </GameButtons>
         </div>
         {!(completed < exeAmount) && (
-          <p style={{ color: "green", fontWeight: "bold" }}>
-            Well Done - Completed!
-          </p>
+          <p className="complTxt">Well Done - Completed!</p>
         )}
       </div>
       <div className="stepdigitboard">
