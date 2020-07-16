@@ -178,7 +178,7 @@ export const Counter = () => {
           1
         </StepDigits>
       </div>
-      <div className="stats" style={{ float: "right" }}>
+      <div className="counterStats" style={{ float: "right" }}>
         <p>Completed: {completed}</p>
       </div>
     </div>

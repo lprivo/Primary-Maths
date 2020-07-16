@@ -9,6 +9,15 @@ body {
 }
 
 .equation-game {
+  position: relative;
+  border: 1px solid #999;
+  padding: 20px;
+  margin: 30px;
+  width: 650px;
+  height: 250px;
+}
+.counter-game {
+  position: relative;
   border: 1px solid #999;
   padding: 20px;
   margin: 30px;
@@ -16,18 +25,31 @@ body {
   height: 250px;
 }
 
-.game-board {
+.optionButtons {
+  background: #fff;
+  border: 1px solid #999;
   float: left;
+  font-size: 16px;
+  font-weight: bold;
+  /* margin-right: -1px; */
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 5px;
+  width: 300px;
+}
+
+.game-board {
+  position: absolute;
   margin: 10px;
   padding: 10px;
   width: 370px;
 }
 
 .game-info {
-  display: block;
+  position: absolute;
+  right: 30px;
   margin: 10px;
   padding: 10px;
-  float: right;
 }
 
 button:focus {
@@ -39,7 +61,7 @@ button:active {
 }
 
 .counter-game {
-  float: left;
+  position: relative;
   border: 1px solid #999;
   padding: 20px;
   margin: 30px;

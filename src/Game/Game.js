@@ -4,18 +4,20 @@ import SetUp from "../SetUp";
 import Exercise from "../Exercise";
 import Stats from "../Stats";
 import GameButtons from "../GameButtons";
+import OptionButton from "../OptionButton";
 import Counter from "../Counter";
-
-const getOperator = () => {
-  const operator = ["+", "-", "*"];
-  return operator[Math.floor(Math.random() * operator.length)];
-};
 
 export const Game = () => {
   const [exeAmount, setExeAmount] = useState(0);
   const [countTotal, setCountTotal] = useState(1);
   const [randomNrs, setRandomNrs] = useState([]);
   const [mathOperator, setMathOperator] = useState();
+  const [plusOp, setPlusOp] = useState(true);
+  const [minusOp, setMinusOp] = useState(true);
+  const [timesOp, setTimesOp] = useState(true);
+  const [plusLimit, setPlusLimit] = useState(40);
+  const [minusLimit, setMinusLimit] = useState(20);
+  const [timesLimit, setTimesLimit] = useState(13);
   const [userInput, setUserInput] = useState("");
   const [inputChanged, setInputChanged] = useState(false);
   const [result, setResults] = useState();
@@ -28,19 +30,36 @@ export const Game = () => {
   const nextRef = useRef(null);
   const inputRef = useRef(null);
 
+  const toggleOperator = useCallback(
+    (operator) => {
+      if (operator === "+") setPlusOp(!plusOp);
+      if (operator === "-") setMinusOp(!minusOp);
+      if (operator === "*") setTimesOp(!timesOp);
+    },
+    [plusOp, minusOp, timesOp]
+  );
+
+  const getOperator = useCallback(() => {
+    const operators = [];
+    if (plusOp) operators.push("+");
+    if (minusOp) operators.push("-");
+    if (timesOp) operators.push("*");
+    return operators[Math.floor(Math.random() * operators.length)];
+  }, [plusOp, minusOp, timesOp]);
+
   const getEquation = useCallback(() => {
     const operator = getOperator();
     setMathOperator(operator);
     setAlreadyAnswered(false);
     if (operator === "+") {
-      const randomN1 = Math.floor(Math.random() * 20) + 1;
-      const randomN2 = Math.floor(Math.random() * 20) + 1;
+      const randomN1 = Math.floor(Math.random() * plusLimit) + 1;
+      const randomN2 = Math.floor(Math.random() * plusLimit) + 1;
       setRandomNrs([randomN1, randomN2]);
       setResults(randomN1 + randomN2);
     }
     if (operator === "-") {
-      const randomN1 = Math.floor(Math.random() * 20) + 1;
-      const randomN2 = Math.floor(Math.random() * 20) + 1;
+      const randomN1 = Math.floor(Math.random() * minusLimit) + 1;
+      const randomN2 = Math.floor(Math.random() * minusLimit) + 1;
       setRandomNrs([
         Math.max(randomN1, randomN2),
         Math.min(randomN1, randomN2),
@@ -48,11 +67,29 @@ export const Game = () => {
       setResults(Math.abs(randomN1 - randomN2));
     }
     if (operator === "*") {
-      const randomN1 = Math.floor(Math.random() * 12) + 1;
-      const randomN2 = Math.floor(Math.random() * 12) + 1;
+      const randomN1 = Math.floor(Math.random() * timesLimit) + 1;
+      const randomN2 = Math.floor(Math.random() * timesLimit) + 1;
       setRandomNrs([randomN1, randomN2]);
       setResults(randomN1 * randomN2);
     }
+  }, [getOperator, plusLimit, minusLimit, timesLimit]);
+
+  const getPlusLimit = useCallback((event) => {
+    let value = event.target.value;
+    if (0 <= value && value < 1000) setPlusLimit(value);
+    else alert("'+' limit must be between 1 and 999");
+  }, []);
+
+  const getMinusLimit = useCallback((event) => {
+    let value = event.target.value;
+    if (0 <= value && value < 1000) setMinusLimit(value);
+    else alert("'-' limit must be between 1 and 999");
+  }, []);
+
+  const getTimesLimit = useCallback((event) => {
+    let value = event.target.value;
+    if (0 <= value && value <= 20) setTimesLimit(value);
+    else alert("'*' limit must be between 1 and 20");
   }, []);
 
   const getInput = useCallback((event) => {
@@ -64,9 +101,10 @@ export const Game = () => {
 
   const handleNext = useCallback(() => {
     if (countTotal < exeAmount) {
-      setCountTotal(countTotal + 1);
+      console.log("exeAmount: ", exeAmount);
       getEquation();
       setUserInput("");
+      setCountTotal(countTotal + 1);
       setCorrectAnswer(false);
       setResultColor("black");
       inputRef.current.focus();
@@ -106,7 +144,7 @@ export const Game = () => {
   ]);
 
   const getExeAmount = useCallback((event) => {
-    setExeAmount(event?.target?.value || 10);
+    setExeAmount(event?.target?.value || 20);
   }, []);
 
   useEffect(() => {
@@ -122,6 +160,42 @@ export const Game = () => {
       <div className="equation-game">
         <div className="game-board">
           <SetUp eventHandler={getExeAmount}></SetUp>
+          <div className="optionButtons">
+            Select operators and upper limit
+            <OptionButton
+              onClick={() => {
+                toggleOperator("+");
+              }}
+              onChange={getPlusLimit}
+              value={plusOp ? plusLimit : ""}
+              selected={plusOp ? "optionBtnPressed" : "optionBtn"}
+              disabled={!plusOp}
+            >
+              +
+            </OptionButton>
+            <OptionButton
+              onClick={() => {
+                toggleOperator("-");
+              }}
+              onChange={getMinusLimit}
+              value={minusOp ? minusLimit : ""}
+              selected={minusOp ? "optionBtnPressed" : "optionBtn"}
+              disabled={!minusOp}
+            >
+              -
+            </OptionButton>
+            <OptionButton
+              onClick={() => {
+                toggleOperator("*");
+              }}
+              onChange={getTimesLimit}
+              value={timesOp ? timesLimit : ""}
+              selected={timesOp ? "optionBtnPressed" : "optionBtn"}
+              disabled={!timesOp}
+            >
+              *
+            </OptionButton>
+          </div>
           <Exercise
             inputRef={inputRef}
             onChange={getInput}
@@ -162,9 +236,7 @@ export const Game = () => {
           )}
         </div>
       </div>
-      <div>
-        <Counter></Counter>
-      </div>
+      <Counter></Counter>
     </div>
   );
 };
