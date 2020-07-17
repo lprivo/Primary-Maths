@@ -163,9 +163,12 @@ export const Game = () => {
           <div className="optionButtons">
             Select operators and upper limit
             <OptionButton
-              onClick={() => {
-                toggleOperator("+");
-              }}
+              onClick={
+                (minusOp || timesOp) &&
+                (() => {
+                  toggleOperator("+");
+                })
+              }
               onChange={getPlusLimit}
               value={plusOp ? plusLimit : ""}
               selected={plusOp ? "optionBtnPressed" : "optionBtn"}
@@ -174,9 +177,12 @@ export const Game = () => {
               +
             </OptionButton>
             <OptionButton
-              onClick={() => {
-                toggleOperator("-");
-              }}
+              onClick={
+                (plusOp || timesOp) &&
+                (() => {
+                  toggleOperator("-");
+                })
+              }
               onChange={getMinusLimit}
               value={minusOp ? minusLimit : ""}
               selected={minusOp ? "optionBtnPressed" : "optionBtn"}
@@ -185,9 +191,12 @@ export const Game = () => {
               -
             </OptionButton>
             <OptionButton
-              onClick={() => {
-                toggleOperator("*");
-              }}
+              onClick={
+                (plusOp || minusOp) &&
+                (() => {
+                  toggleOperator("*");
+                })
+              }
               onChange={getTimesLimit}
               value={timesOp ? timesLimit : ""}
               selected={timesOp ? "optionBtnPressed" : "optionBtn"}
