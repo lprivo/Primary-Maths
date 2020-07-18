@@ -51,14 +51,6 @@ body {
   padding: 10px;
 }
 
-button:focus {
-  border: 2px solid;
-}
-
-button:active {
-  border: inset 1px #505050;
-}
-
 .counter-game {
   position: relative;
   border: 1px solid #999;
