@@ -88,7 +88,7 @@ export const Counter = () => {
           <NumberSquares className={"randomSquare"}>
             {counterRandom}
           </NumberSquares>
-          <MathSigns>=</MathSigns>
+          <MathSigns className={"mathSigns"}>=</MathSigns>
           <NumberSquares
             className={"counterSquare"}
             newColor={equalNrs && "green"}

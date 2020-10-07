@@ -15,16 +15,15 @@ export const Exercise = ({
   newColor,
   onKeyPress,
   CheckMarkChild,
-  // focus,
 }) => {
-  let MathSignsClass = "";
-  (operator === "-" || operator === "x") ? MathSignsClass = "mathSigns-x" : MathSignsClass = "mathSigns";
+  let mathSignsClass = "";
+  (operator === "-" || operator === "x") ? mathSignsClass = "mathSigns-x" : mathSignsClass = "mathSigns";
   return (
     <div className="equation">
       <NumberSquares className={"nrSquare"}>{randomNrs1}</NumberSquares>
-      <MathSigns className={MathSignsClass}>{operator}</MathSigns>
+      <MathSigns className={mathSignsClass}>{operator}</MathSigns>
       <NumberSquares className={"nrSquare"}>{randomNrs2}</NumberSquares>
-      <MathSigns>=</MathSigns>
+      <MathSigns className={"mathSigns"}>=</MathSigns>
       <ResultSquare
         inputRef={inputRef}
         onChange={onChange}
