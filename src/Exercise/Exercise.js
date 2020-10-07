@@ -17,10 +17,12 @@ export const Exercise = ({
   CheckMarkChild,
   // focus,
 }) => {
+  let MathSignsClass = "";
+  (operator === "-" || operator === "x") ? MathSignsClass = "mathSigns-x" : MathSignsClass = "mathSigns";
   return (
     <div className="equation">
       <NumberSquares className={"nrSquare"}>{randomNrs1}</NumberSquares>
-      <MathSigns>{operator}</MathSigns>
+      <MathSigns className={MathSignsClass}>{operator}</MathSigns>
       <NumberSquares className={"nrSquare"}>{randomNrs2}</NumberSquares>
       <MathSigns>=</MathSigns>
       <ResultSquare
@@ -29,7 +31,7 @@ export const Exercise = ({
         value={value}
         newColor={newColor}
         onKeyPress={onKeyPress}
-        // focus={focus}
+      // focus={focus}
       ></ResultSquare>
       <CheckMark>{CheckMarkChild && "✅"}</CheckMark>
     </div>

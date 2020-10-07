@@ -6,3 +6,12 @@
   text-align: center;
   width: 36px;
 }
+
+.mathSigns-x {
+  float: left;
+  font-size: 46px;
+  padding: 0px;
+  margin: -5px;
+  text-align: center;
+  width: 36px;
+}
