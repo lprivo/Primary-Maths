@@ -11,6 +11,7 @@ export const Game = () => {
   const [exeAmount, setExeAmount] = useState(0);
   const [countTotal, setCountTotal] = useState(1);
   const [randomNrs, setRandomNrs] = useState([]);
+  console.log('randomNrs: ', randomNrs);
   const [mathOperator, setMathOperator] = useState();
   const [plusOp, setPlusOp] = useState(true);
   const [minusOp, setMinusOp] = useState(true);
@@ -34,7 +35,7 @@ export const Game = () => {
     (operator) => {
       if (operator === "+") setPlusOp(!plusOp);
       if (operator === "-") setMinusOp(!minusOp);
-      if (operator === "*") setTimesOp(!timesOp);
+      if (operator === "x") setTimesOp(!timesOp);
     },
     [plusOp, minusOp, timesOp]
   );
@@ -43,7 +44,7 @@ export const Game = () => {
     const operators = [];
     if (plusOp) operators.push("+");
     if (minusOp) operators.push("-");
-    if (timesOp) operators.push("*");
+    if (timesOp) operators.push("x");
     return operators[Math.floor(Math.random() * operators.length)];
   }, [plusOp, minusOp, timesOp]);
 
@@ -66,7 +67,7 @@ export const Game = () => {
       ]);
       setResults(Math.abs(randomN1 - randomN2));
     }
-    if (operator === "*") {
+    if (operator === "x") {
       const randomN1 = Math.floor(Math.random() * timesLimit) + 1;
       const randomN2 = Math.floor(Math.random() * timesLimit) + 1;
       setRandomNrs([randomN1, randomN2]);
@@ -194,7 +195,7 @@ export const Game = () => {
               onClick={
                 (plusOp || minusOp) &&
                 (() => {
-                  toggleOperator("*");
+                  toggleOperator("x");
                 })
               }
               onChange={getTimesLimit}
@@ -202,7 +203,7 @@ export const Game = () => {
               selected={timesOp ? "optionBtnPressed" : "optionBtn"}
               disabled={!timesOp}
             >
-              *
+              x
             </OptionButton>
           </div>
           <Exercise
