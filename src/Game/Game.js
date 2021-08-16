@@ -16,8 +16,8 @@ export const Game = () => {
   const [plusOp, setPlusOp] = useState(true);
   const [minusOp, setMinusOp] = useState(true);
   const [timesOp, setTimesOp] = useState(true);
-  const [plusLimit, setPlusLimit] = useState(40);
-  const [minusLimit, setMinusLimit] = useState(20);
+  const [plusLimit, setPlusLimit] = useState(50);
+  const [minusLimit, setMinusLimit] = useState(30);
   const [timesLimit, setTimesLimit] = useState(13);
   const [userInput, setUserInput] = useState("");
   const [inputChanged, setInputChanged] = useState(false);
@@ -61,11 +61,13 @@ export const Game = () => {
     if (operator === "-") {
       const randomN1 = Math.floor(Math.random() * minusLimit) + 1;
       const randomN2 = Math.floor(Math.random() * minusLimit) + 1;
-      setRandomNrs([
-        Math.max(randomN1, randomN2),
-        Math.min(randomN1, randomN2),
-      ]);
-      setResults(Math.abs(randomN1 - randomN2));
+      setRandomNrs([randomN1, randomN2]);
+      // If we don't want negativ take-away results:
+      // setRandomNrs([
+      //   Math.max(randomN1, randomN2),
+      //   Math.min(randomN1, randomN2),
+      // ]);
+      setResults(randomN1 - randomN2);
     }
     if (operator === "x") {
       const randomN1 = Math.floor(Math.random() * timesLimit) + 1;
