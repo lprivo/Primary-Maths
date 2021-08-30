@@ -16,9 +16,9 @@ export const Game = () => {
   const [plusOp, setPlusOp] = useState(true);
   const [minusOp, setMinusOp] = useState(true);
   const [timesOp, setTimesOp] = useState(true);
-  const [plusLimit, setPlusLimit] = useState(50);
-  const [minusLimit, setMinusLimit] = useState(30);
-  const [timesLimit, setTimesLimit] = useState(13);
+  const [plusLimit, setPlusLimit] = useState(70);
+  const [minusLimit, setMinusLimit] = useState(50);
+  const [timesLimit, setTimesLimit] = useState(14);
   const [userInput, setUserInput] = useState("");
   const [inputChanged, setInputChanged] = useState(false);
   const [result, setResults] = useState();
@@ -62,16 +62,16 @@ export const Game = () => {
       const randomN1 = Math.floor(Math.random() * minusLimit) + 1;
       const randomN2 = Math.floor(Math.random() * minusLimit) + 1;
       setRandomNrs([randomN1, randomN2]);
+      setResults(randomN1 - randomN2);
       // If we don't want negativ take-away results:
       // setRandomNrs([
       //   Math.max(randomN1, randomN2),
       //   Math.min(randomN1, randomN2),
       // ]);
-      setResults(randomN1 - randomN2);
     }
     if (operator === "x") {
-      const randomN1 = Math.floor(Math.random() * timesLimit) + 1;
-      const randomN2 = Math.floor(Math.random() * timesLimit) + 1;
+      const randomN1 = Math.floor(Math.random() * (timesLimit-1)) + 2;
+      const randomN2 = Math.floor(Math.random() * (timesLimit-1)) + 2;
       setRandomNrs([randomN1, randomN2]);
       setResults(randomN1 * randomN2);
     }
@@ -104,7 +104,6 @@ export const Game = () => {
 
   const handleNext = useCallback(() => {
     if (countTotal < exeAmount) {
-      console.log("exeAmount: ", exeAmount);
       getEquation();
       setUserInput("");
       setCountTotal(countTotal + 1);
@@ -147,7 +146,7 @@ export const Game = () => {
   ]);
 
   const getExeAmount = useCallback((event) => {
-    setExeAmount(event?.target?.value || 20);
+    setExeAmount(event?.target?.value || 25);
   }, []);
 
   useEffect(() => {
@@ -232,7 +231,7 @@ export const Game = () => {
             className={"gameButtons"}
             buttonRef={nextRef}
             onClick={handleNext}
-            disabled={exeAmount > countTotal ? false : true}
+            disabled={(exeAmount > countTotal && alreadyAnswered === true) ? false : true}
           >
             NEXT
           </GameButtons>
