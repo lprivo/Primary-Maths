@@ -5,8 +5,8 @@ export const Stats = ({ total, correct, wrong }) => {
   return (
     <div className="stats">
       <p>Total: {total}</p>
-      <p>Correct: {correct}</p>
-      <p>Wrong: {wrong}</p>
+      <p className="correct">Correct: {correct} 👍</p>
+      <p className="incorrect">Incorrect: {wrong}</p>
     </div>
   );
 };

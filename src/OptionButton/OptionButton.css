@@ -1,34 +1,32 @@
 .optionElement {
-  float: left;
+  display: flex;
+  align-items: center;
   margin-top: 7px;
-  width: 100px;
+  width: 80px;
 }
 
 .optionBtn {
-  margin-top: 7px;
   margin-left: 8px;
   margin-right: 8px;
   font-size: 15px;
   font-weight: bold;
-  float: left;
+  /* float: left; */
   width: 25px;
+  height: 25px;
 }
 
 .optionBtnPressed {
-  margin-top: 7px;
-  margin-left: 8px;
   margin-right: 8px;
   font-size: 15px;
   font-weight: bold;
-  float: left;
   width: 25px;
-  border: inset 2px rgba(80, 80, 80, 0.5);
-  /* background-color: rgba(180, 180, 180, 0.5); */
+  height: 25px;
+  border: inset 2px rgba(80, 80, 80);
   box-shadow: inset 2px 2px rgb(80, 80, 80, 0.5);
 }
 
 .optionInput {
-  margin-top: 8px;
   width: 22px;
+  height: 18px;
   text-align: right;
 }

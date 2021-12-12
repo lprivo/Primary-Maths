@@ -14,9 +14,11 @@ export const Exercise = ({
   value,
   newColor,
   onKeyPress,
-  CheckMarkChild,
+  checkMarkChild,
+  showCheckMark
 }) => {
   let mathSignsClass = "";
+  const checkMark = checkMarkChild ? "✔️" : "❌";
   (operator === "-" || operator === "x") ? mathSignsClass = "mathSigns-x" : mathSignsClass = "mathSigns";
   return (
     <div className="equation">
@@ -32,7 +34,7 @@ export const Exercise = ({
         onKeyPress={onKeyPress}
       // focus={focus}
       ></ResultSquare>
-      <CheckMark>{CheckMarkChild && "✅"}</CheckMark>
+      <CheckMark>{showCheckMark && checkMark}</CheckMark>
     </div>
   );
 };

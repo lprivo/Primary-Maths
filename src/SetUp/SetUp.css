@@ -1,7 +1,8 @@
 .setUp {
-  background: #fff;
-  border: 1px solid #999;
-  float: left;
+  order: 1;
+  flex-grow: 1;
+  background: rgb(150, 180, 200);
+  /* border: 1px solid rgb(78, 78, 78); */
   font-size: 16px;
   font-weight: bold;
   /* margin-right: -1px; */
