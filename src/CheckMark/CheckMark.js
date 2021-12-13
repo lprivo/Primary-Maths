@@ -3,9 +3,11 @@ import "./CheckMark.css";
 
 export const CheckMark = ({ children }) => {
   return (
-    <span className="checkMark" role="img" aria-label="Correct Answer">
+    <div className="checkMark">
+    <span className="checkMarkChild" role="img" aria-label="Correct Answer">
       {children}
     </span>
+    </div>
   );
 };
 

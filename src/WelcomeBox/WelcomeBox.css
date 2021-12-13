@@ -1,0 +1,38 @@
+.welcomeBox {
+    order: 1;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.welcomeText {
+    order: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.hello {
+    font-size: 30px;
+    padding: 5px;
+}
+
+.awardBoard {
+    order: 2;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.theMeadMath {
+    width: 95px;
+    height: 102px;
+}

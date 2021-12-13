@@ -6,12 +6,13 @@ import Stats from "../Stats";
 import GameButtons from "../GameButtons";
 import OptionButton from "../OptionButton";
 import Counter from "../Counter";
+import { WelcomeBox } from "../WelcomeBox/WelcomeBox";
 
 export const Game = () => {
+  const [mathematician, setMathematician] = useState("");
   const [exeAmount, setExeAmount] = useState(0);
   const [countTotal, setCountTotal] = useState(1);
   const [randomNrs, setRandomNrs] = useState([]);
-  console.log('randomNrs: ', randomNrs);
   const [mathOperator, setMathOperator] = useState();
   const [plusOp, setPlusOp] = useState(true);
   const [minusOp, setMinusOp] = useState(true);
@@ -86,8 +87,6 @@ export const Game = () => {
       const dividend = Math.floor(Math.random() * (dividendArray.length)) + 1;
       const randomN2 = Math.floor(Math.random() * (divisionLimit)) + 1;
       const randomN1 = dividend * randomN2;
-      console.log("dividend", dividend);
-      console.log("randomN2", randomN2);
       setRandomNrs([randomN1, randomN2]);
       setResults(randomN1 / randomN2);
     }
@@ -183,9 +182,27 @@ export const Game = () => {
     getEquation();
   }, [getEquation]);
 
+  useEffect(() => {
+    setMathematician("Roland");
+  }, [setMathematician])
+
   return (
     <div className="game">
       <div className="equation-game">
+        <WelcomeBox mathematician={mathematician}></WelcomeBox>
+        <Exercise
+            inputRef={inputRef}
+            onChange={getInput}
+            value={userInput}
+            newColor={resultColor}
+            onKeyPress={handleCheck}
+            checkMarkChild={correctAnswer}
+            showCheckMark={showCheckMark}
+            randomNrs1={randomNrs[0]}
+            randomNrs2={randomNrs[1]}
+            operator={mathOperator}
+          ></Exercise>
+        <div className="gameContainer">
         <div className="game-board">
           <SetUp eventHandler={getExeAmount}></SetUp>
           <div className="optionButtonContainer">
@@ -249,7 +266,7 @@ export const Game = () => {
             </OptionButton>
             </div>
           </div>
-          <Exercise
+          {/* <Exercise
             inputRef={inputRef}
             onChange={getInput}
             value={userInput}
@@ -260,7 +277,7 @@ export const Game = () => {
             randomNrs1={randomNrs[0]}
             randomNrs2={randomNrs[1]}
             operator={mathOperator}
-          ></Exercise>
+          ></Exercise> */}
         </div>
         <div className="game-info">
           <div className="gameButtonsContainer">
@@ -290,6 +307,7 @@ export const Game = () => {
               Well Done - Completed!
             </p>
           )}
+        </div>
         </div>
       </div>
       {/* <Counter></Counter> */}
