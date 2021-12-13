@@ -5,7 +5,7 @@ import Exercise from "../Exercise";
 import Stats from "../Stats";
 import GameButtons from "../GameButtons";
 import OptionButton from "../OptionButton";
-import Counter from "../Counter";
+// import Counter from "../Counter";
 import { WelcomeBox } from "../WelcomeBox/WelcomeBox";
 
 export const Game = () => {
