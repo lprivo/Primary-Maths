@@ -1,10 +1,15 @@
-.game-info {
-  margin-left: 20px;
+.gameButtonsContainer {
+  display: flex;
+  flex-flow: row wrap;
+  flex-grow: 1;
+  justify-content: stretch;
+  align-items: center;
+  max-width: 200px;
+  gap: 5px;
 }
 
 .gameButtons {
-  margin-left: 8px;
-  margin-right: 8px;
+ 
+  margin: auto;
   font-size: 17px;
-  margin-top: 15px;
 }

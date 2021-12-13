@@ -1,20 +1,21 @@
 .resSquare {
   background: #fff;
-  border: 2px solid rgb(120, 200, 200);
-  float: left;
+  border: 2px solid rgb(50, 50, 150);
   font-family: "Futura";
-  font-size: 40px;
+  font-size: 70px;
   font-weight: bold;
   line-height: 52px;
-  height: 52px;
+  height: 70px;
   margin: 0px;
   padding: 0;
   text-align: center;
-  width: 80px;
+  width: 120px;
 }
+
 .resSquare::placeholder {
-  font-size: 40px;
+  font-size: 60px;
   font-weight: normal;
+  font-family:'Times New Roman', Times, serif;
 }
 
 .resSquare:focus {
