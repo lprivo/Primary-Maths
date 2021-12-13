@@ -11,6 +11,6 @@ export const WelcomeBox = ({mathematician}) =>
             <span>Let's do some a-maz-ing maths! <span role="img" aria-label="smiley">😊</span></span>
         </div>
         <div className="awardBoard">
-            <img className="theMeadMath" src={tmm} alt="the_mead_mathematician" /></div>      
+            <img className="theMeadMath" src={tmm} alt="the_mead_mathematician"></img></div>      
     </div>
 }
