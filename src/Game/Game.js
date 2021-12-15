@@ -7,7 +7,10 @@ import GameButtons from "../GameButtons";
 import OptionButton from "../OptionButton";
 // import Counter from "../Counter";
 import { WelcomeBox } from "../WelcomeBox/WelcomeBox";
-
+import correctTune from "../lib/mixkit-achievement-bell-600.wav";
+import incorrectTune from "../lib/mixkit-car-double-horn-719.wav";
+// import wellDoneTune from "../lib/mixkit-football-team-applause-509.wav";
+        
 export const Game = () => {
   const [mathematician, setMathematician] = useState("");
   const [exeAmount, setExeAmount] = useState(0);
@@ -35,7 +38,10 @@ export const Game = () => {
   const nextRef = useRef(null);
   const inputRef = useRef(null);
   const divisionSign = String.fromCharCode(247);
-      
+  
+  const [audio, setAudio] = useState(new Audio(correctTune));
+  const [playing, setPlaying] = useState(false);
+  
   const toggleOperator = useCallback(
     (operator) => {
       if (operator === "+") setPlusOp(!plusOp);
@@ -148,11 +154,15 @@ export const Game = () => {
       nextRef.current.focus();
       if (inputChanged && !alreadyAnswered) {
         setCountCorrectAswer(countCorrectAnswer + 1);
+        setAudio(new Audio(correctTune));
+        setPlaying(true);
         setInputChanged(false);
       }
     } else {
       setResultColor("red");
       setCorrectAnswer(false);
+      setAudio(new Audio(incorrectTune));
+      setPlaying(true);
       setShowCheckMark(true);
       if (inputChanged && !alreadyAnswered) {
         setCountWrongAnswer(countWrongAnswer + 1);
@@ -185,6 +195,21 @@ export const Game = () => {
   useEffect(() => {
     setMathematician("Roland");
   }, [setMathematician])
+
+  useEffect(() => {
+    playing ? audio.play() : audio.pause();
+    },
+    [playing, audio]
+  );
+
+useEffect(() => {
+  console.log("playing", playing);
+  audio.addEventListener('ended', () => setPlaying(false));
+  console.log("playing", playing);
+  return () => {
+      audio.removeEventListener('ended', () => setPlaying(false));
+    };
+  }, [audio, playing]);
 
   return (
     <div className="game">
@@ -266,19 +291,7 @@ export const Game = () => {
             </OptionButton>
             </div>
           </div>
-          {/* <Exercise
-            inputRef={inputRef}
-            onChange={getInput}
-            value={userInput}
-            newColor={resultColor}
-            onKeyPress={handleCheck}
-            checkMarkChild={correctAnswer}
-            showCheckMark={showCheckMark}
-            randomNrs1={randomNrs[0]}
-            randomNrs2={randomNrs[1]}
-            operator={mathOperator}
-          ></Exercise> */}
-        </div>
+          </div>
         <div className="game-info">
           <div className="gameButtonsContainer">
           <GameButtons
@@ -306,6 +319,8 @@ export const Game = () => {
             <p style={{ color: "green", fontWeight: "bold" }}>
               Well Done - Completed!
             </p>
+            // setAudio(new Audio(wellDoneTune)),
+            // setPlaying(true)
           )}
         </div>
         </div>
