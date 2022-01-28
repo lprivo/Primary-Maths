@@ -52,7 +52,16 @@ export const Game = () => {
       if (operator === multiplicationSign) setTimesOp(!timesOp);
       if (operator === divisionSign) setDivisionOp(!divisionOp);
     },
-    [plusOp, minusOp, timesOp, divisionOp, divisionSign]
+    [
+      plusOp,
+      minusOp,
+      timesOp,
+      divisionOp,
+      plusSign,
+      minusSign,
+      multiplicationSign,
+      divisionSign
+    ]
   );
 
   const getOperator = useCallback(() => {
@@ -62,7 +71,16 @@ export const Game = () => {
     if (timesOp) operators.push(multiplicationSign);
     if (divisionOp) operators.push(divisionSign);
     return operators[Math.floor(Math.random() * operators.length)];
-  }, [plusOp, minusOp, timesOp, divisionOp, divisionSign]);
+  }, [
+    plusOp,
+    minusOp,
+    timesOp,
+    divisionOp,
+    plusSign,
+    minusSign,
+    multiplicationSign,
+    divisionSign
+  ]);
 
   const getEquation = useCallback(() => {
     const operator = getOperator();
@@ -106,26 +124,38 @@ export const Game = () => {
     minusLimit,
     timesLimit,
     divisionLimit,
+    plusSign,
+    minusSign,
+    multiplicationSign,
     divisionSign
   ]);
 
-  const getPlusLimit = useCallback(event => {
-    let value = event.target.value;
-    if (0 <= value && value < 1000) setPlusLimit(value);
-    else alert(`'${plusSign}' limit must be between 1 and 999`);
-  }, []);
+  const getPlusLimit = useCallback(
+    event => {
+      let value = event.target.value;
+      if (0 <= value && value < 1000) setPlusLimit(value);
+      else alert(`'${plusSign}' limit must be between 1 and 999`);
+    },
+    [plusSign]
+  );
 
-  const getMinusLimit = useCallback(event => {
-    let value = event.target.value;
-    if (0 <= value && value < 1000) setMinusLimit(value);
-    else alert(`'${minusLimit}' limit must be between 1 and 999`);
-  }, []);
+  const getMinusLimit = useCallback(
+    event => {
+      let value = event.target.value;
+      if (0 <= value && value < 1000) setMinusLimit(value);
+      else alert(`'${minusSign}' limit must be between 1 and 999`);
+    },
+    [minusSign]
+  );
 
-  const getTimesLimit = useCallback(event => {
-    let value = event.target.value;
-    if (0 <= value && value <= 20) setTimesLimit(value);
-    else alert(`'${multiplicationSign}' limit must be between 1 and 20`);
-  }, []);
+  const getTimesLimit = useCallback(
+    event => {
+      let value = event.target.value;
+      if (0 <= value && value <= 20) setTimesLimit(value);
+      else alert(`'${multiplicationSign}' limit must be between 1 and 20`);
+    },
+    [multiplicationSign]
+  );
 
   const getDivisionLimit = useCallback(
     event => {
