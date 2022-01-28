@@ -10,7 +10,7 @@ import { WelcomeBox } from "../WelcomeBox/WelcomeBox";
 import correctTune from "../lib/mixkit-achievement-bell-600.wav";
 import incorrectTune from "../lib/mixkit-car-double-horn-719.wav";
 // import wellDoneTune from "../lib/mixkit-football-team-applause-509.wav";
-        
+
 export const Game = () => {
   const [mathematician, setMathematician] = useState("");
   const [exeAmount, setExeAmount] = useState(0);
@@ -37,16 +37,19 @@ export const Game = () => {
   const [countWrongAnswer, setCountWrongAnswer] = useState(0);
   const nextRef = useRef(null);
   const inputRef = useRef(null);
+  const plusSign = String.fromCharCode(43);
+  const minusSign = String.fromCharCode(45);
+  const multiplicationSign = String.fromCharCode(215);
   const divisionSign = String.fromCharCode(247);
-  
+
   const [audio, setAudio] = useState(new Audio(correctTune));
   const [playing, setPlaying] = useState(false);
-  
+
   const toggleOperator = useCallback(
-    (operator) => {
-      if (operator === "+") setPlusOp(!plusOp);
-      if (operator === "-") setMinusOp(!minusOp);
-      if (operator === "x") setTimesOp(!timesOp);
+    operator => {
+      if (operator === plusSign) setPlusOp(!plusOp);
+      if (operator === minusSign) setMinusOp(!minusOp);
+      if (operator === multiplicationSign) setTimesOp(!timesOp);
       if (operator === divisionSign) setDivisionOp(!divisionOp);
     },
     [plusOp, minusOp, timesOp, divisionOp, divisionSign]
@@ -54,9 +57,9 @@ export const Game = () => {
 
   const getOperator = useCallback(() => {
     const operators = [];
-    if (plusOp) operators.push("+");
-    if (minusOp) operators.push("-");
-    if (timesOp) operators.push("x");
+    if (plusOp) operators.push(plusSign);
+    if (minusOp) operators.push(minusSign);
+    if (timesOp) operators.push(multiplicationSign);
     if (divisionOp) operators.push(divisionSign);
     return operators[Math.floor(Math.random() * operators.length)];
   }, [plusOp, minusOp, timesOp, divisionOp, divisionSign]);
@@ -65,13 +68,13 @@ export const Game = () => {
     const operator = getOperator();
     setMathOperator(operator);
     setAlreadyAnswered(false);
-    if (operator === "+") {
+    if (operator === plusSign) {
       const randomN1 = Math.floor(Math.random() * plusLimit) + 1;
       const randomN2 = Math.floor(Math.random() * plusLimit) + 1;
       setRandomNrs([randomN1, randomN2]);
       setResults(randomN1 + randomN2);
     }
-    if (operator === "-") {
+    if (operator === minusSign) {
       const randomN1 = Math.floor(Math.random() * minusLimit) + 1;
       const randomN2 = Math.floor(Math.random() * minusLimit) + 1;
       setRandomNrs([randomN1, randomN2]);
@@ -82,47 +85,58 @@ export const Game = () => {
       //   Math.min(randomN1, randomN2),
       // ]);
     }
-    if (operator === "x") {
-      const randomN1 = Math.floor(Math.random() * (timesLimit-1)) + 2;
-      const randomN2 = Math.floor(Math.random() * (timesLimit-1)) + 2;
+    if (operator === multiplicationSign) {
+      const timesTableSize = "12";
+      const randomN1 = Math.floor(Math.random() * (timesLimit - 1)) + 2;
+      const randomN2 = Math.floor(Math.random() * (timesTableSize - 1)) + 2;
       setRandomNrs([randomN1, randomN2]);
       setResults(randomN1 * randomN2);
     }
     if (operator === divisionSign) {
       const dividendArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100];
-      const dividend = Math.floor(Math.random() * (dividendArray.length)) + 1;
-      const randomN2 = Math.floor(Math.random() * (divisionLimit)) + 1;
+      const dividend = Math.floor(Math.random() * dividendArray.length) + 1;
+      const randomN2 = Math.floor(Math.random() * divisionLimit) + 1;
       const randomN1 = dividend * randomN2;
       setRandomNrs([randomN1, randomN2]);
       setResults(randomN1 / randomN2);
     }
-  }, [getOperator, plusLimit, minusLimit, timesLimit, divisionLimit, divisionSign]);
+  }, [
+    getOperator,
+    plusLimit,
+    minusLimit,
+    timesLimit,
+    divisionLimit,
+    divisionSign
+  ]);
 
-  const getPlusLimit = useCallback((event) => {
+  const getPlusLimit = useCallback(event => {
     let value = event.target.value;
     if (0 <= value && value < 1000) setPlusLimit(value);
-    else alert("'+' limit must be between 1 and 999");
+    else alert(`'${plusSign}' limit must be between 1 and 999`);
   }, []);
 
-  const getMinusLimit = useCallback((event) => {
+  const getMinusLimit = useCallback(event => {
     let value = event.target.value;
     if (0 <= value && value < 1000) setMinusLimit(value);
-    else alert("'-' limit must be between 1 and 999");
+    else alert(`'${minusLimit}' limit must be between 1 and 999`);
   }, []);
 
-  const getTimesLimit = useCallback((event) => {
+  const getTimesLimit = useCallback(event => {
     let value = event.target.value;
     if (0 <= value && value <= 20) setTimesLimit(value);
-    else alert("'*' limit must be between 1 and 20");
+    else alert(`'${multiplicationSign}' limit must be between 1 and 20`);
   }, []);
 
-  const getDivisionLimit = useCallback((event) => {
-    let value = event.target.value;
-    if (0 <= value && value <= 10) setDivisionLimit(value);
-    else alert(`'${divisionSign}' limit must be between 1 and 10`);
-  }, [divisionSign]);
+  const getDivisionLimit = useCallback(
+    event => {
+      let value = event.target.value;
+      if (0 <= value && value <= 10) setDivisionLimit(value);
+      else alert(`'${divisionSign}' limit must be between 1 and 10`);
+    },
+    [divisionSign]
+  );
 
-  const getInput = useCallback((event) => {
+  const getInput = useCallback(event => {
     setUserInput(event.target.value);
     setInputChanged(true);
     setCorrectAnswer(false);
@@ -180,7 +194,7 @@ export const Game = () => {
     nextRef
   ]);
 
-  const getExeAmount = useCallback((event) => {
+  const getExeAmount = useCallback(event => {
     setExeAmount(event?.target?.value || 25);
   }, []);
 
@@ -194,20 +208,18 @@ export const Game = () => {
 
   useEffect(() => {
     setMathematician("Roland");
-  }, [setMathematician])
+  }, [setMathematician]);
 
   useEffect(() => {
     playing ? audio.play() : audio.pause();
-    },
-    [playing, audio]
-  );
+  }, [playing, audio]);
 
-useEffect(() => {
-  console.log("playing", playing);
-  audio.addEventListener('ended', () => setPlaying(false));
-  console.log("playing", playing);
-  return () => {
-      audio.removeEventListener('ended', () => setPlaying(false));
+  useEffect(() => {
+    console.log("playing", playing);
+    audio.addEventListener("ended", () => setPlaying(false));
+    console.log("playing", playing);
+    return () => {
+      audio.removeEventListener("ended", () => setPlaying(false));
     };
   }, [audio, playing]);
 
@@ -216,113 +228,117 @@ useEffect(() => {
       <div className="equation-game">
         <WelcomeBox mathematician={mathematician}></WelcomeBox>
         <Exercise
-            inputRef={inputRef}
-            onChange={getInput}
-            value={userInput}
-            newColor={resultColor}
-            onKeyPress={handleCheck}
-            checkMarkChild={correctAnswer}
-            showCheckMark={showCheckMark}
-            randomNrs1={randomNrs[0]}
-            randomNrs2={randomNrs[1]}
-            operator={mathOperator}
-          ></Exercise>
+          inputRef={inputRef}
+          onChange={getInput}
+          value={userInput}
+          newColor={resultColor}
+          onKeyPress={handleCheck}
+          checkMarkChild={correctAnswer}
+          showCheckMark={showCheckMark}
+          randomNrs1={randomNrs[0]}
+          randomNrs2={randomNrs[1]}
+          operator={mathOperator}
+        ></Exercise>
         <div className="gameContainer">
-        <div className="game-board">
-          <SetUp eventHandler={getExeAmount}></SetUp>
-          <div className="optionButtonContainer">
-            <span>Select operators and upper limit:</span>
-            <div className="optionButtons">
-            <OptionButton
-              onClick={
-                (minusOp || timesOp || divisionOp) &&
-                (() => {
-                  toggleOperator("+");
-                })
-              }
-              onChange={getPlusLimit}
-              value={plusOp ? plusLimit : ""}
-              selected={plusOp ? "optionBtnPressed" : "optionBtn"}
-              disabled={!plusOp}
-            >
-              +
-            </OptionButton>
-            <OptionButton
-              onClick={
-                (plusOp || timesOp || divisionOp) &&
-                (() => {
-                  toggleOperator("-");
-                })
-              }
-              onChange={getMinusLimit}
-              value={minusOp ? minusLimit : ""}
-              selected={minusOp ? "optionBtnPressed" : "optionBtn"}
-              disabled={!minusOp}
-            >
-              -
-            </OptionButton>
-            <OptionButton
-              onClick={
-                (plusOp || minusOp || divisionOp) &&
-                (() => {
-                  toggleOperator("x");
-                })
-              }
-              onChange={getTimesLimit}
-              value={timesOp ? timesLimit : ""}
-              selected={timesOp ? "optionBtnPressed" : "optionBtn"}
-              disabled={!timesOp}
-            >
-              x
-            </OptionButton>
-            <OptionButton
-              onClick={
-                (plusOp || minusOp || timesOp) &&
-                (() => {
-                  toggleOperator(divisionSign);
-                })
-              }
-              onChange={getDivisionLimit}
-              value={divisionOp ? divisionLimit : ""}
-              selected={divisionOp ? "optionBtnPressed" : "optionBtn"}
-              disabled={!divisionOp}
-            >
-              {divisionSign}
-            </OptionButton>
+          <div className="game-board">
+            <SetUp eventHandler={getExeAmount}></SetUp>
+            <div className="optionButtonContainer">
+              <span>Select operators and upper limit:</span>
+              <div className="optionButtons">
+                <OptionButton
+                  onClick={
+                    (minusOp || timesOp || divisionOp) &&
+                    (() => {
+                      toggleOperator(plusSign);
+                    })
+                  }
+                  onChange={getPlusLimit}
+                  value={plusOp ? plusLimit : ""}
+                  selected={plusOp ? "optionBtnPressed" : "optionBtn"}
+                  disabled={!plusOp}
+                >
+                  +
+                </OptionButton>
+                <OptionButton
+                  onClick={
+                    (plusOp || timesOp || divisionOp) &&
+                    (() => {
+                      toggleOperator(minusSign);
+                    })
+                  }
+                  onChange={getMinusLimit}
+                  value={minusOp ? minusLimit : ""}
+                  selected={minusOp ? "optionBtnPressed" : "optionBtn"}
+                  disabled={!minusOp}
+                >
+                  -
+                </OptionButton>
+                <OptionButton
+                  onClick={
+                    (plusOp || minusOp || divisionOp) &&
+                    (() => {
+                      toggleOperator(multiplicationSign);
+                    })
+                  }
+                  onChange={getTimesLimit}
+                  value={timesOp ? timesLimit : ""}
+                  selected={timesOp ? "optionBtnPressed" : "optionBtn"}
+                  disabled={!timesOp}
+                >
+                  x
+                </OptionButton>
+                <OptionButton
+                  onClick={
+                    (plusOp || minusOp || timesOp) &&
+                    (() => {
+                      toggleOperator(divisionSign);
+                    })
+                  }
+                  onChange={getDivisionLimit}
+                  value={divisionOp ? divisionLimit : ""}
+                  selected={divisionOp ? "optionBtnPressed" : "optionBtn"}
+                  disabled={!divisionOp}
+                >
+                  {divisionSign}
+                </OptionButton>
+              </div>
             </div>
           </div>
+          <div className="game-info">
+            <div className="gameButtonsContainer">
+              <GameButtons
+                className={"gameButtons"}
+                onClick={handleCheck}
+                disabled={!inputChanged}
+              >
+                CHECK
+              </GameButtons>
+              <GameButtons
+                className={"gameButtons"}
+                buttonRef={nextRef}
+                onClick={handleNext}
+                disabled={
+                  exeAmount > countTotal && alreadyAnswered === true
+                    ? false
+                    : true
+                }
+              >
+                NEXT
+              </GameButtons>
+            </div>
+            <Stats
+              total={countTotal}
+              correct={countCorrectAnswer}
+              wrong={countWrongAnswer}
+            ></Stats>
+            {!(answered < exeAmount) && (
+              <p style={{ color: "green", fontWeight: "bold" }}>
+                Well Done - Completed!
+              </p>
+              // setAudio(new Audio(wellDoneTune)),
+              // setPlaying(true)
+            )}
           </div>
-        <div className="game-info">
-          <div className="gameButtonsContainer">
-          <GameButtons
-            className={"gameButtons"}
-            onClick={handleCheck}
-            disabled={!inputChanged}
-          >
-            CHECK
-          </GameButtons>
-          <GameButtons
-            className={"gameButtons"}
-            buttonRef={nextRef}
-            onClick={handleNext}
-            disabled={(exeAmount > countTotal && alreadyAnswered === true) ? false : true}
-          >
-            NEXT
-          </GameButtons>
-          </div>
-          <Stats
-            total={countTotal}
-            correct={countCorrectAnswer}
-            wrong={countWrongAnswer}
-          ></Stats>
-          {!(answered < exeAmount) && (
-            <p style={{ color: "green", fontWeight: "bold" }}>
-              Well Done - Completed!
-            </p>
-            // setAudio(new Audio(wellDoneTune)),
-            // setPlaying(true)
-          )}
-        </div>
         </div>
       </div>
       {/* <Counter></Counter> */}
