@@ -24,7 +24,7 @@ export const Game = () => {
   const [plusLimit, setPlusLimit] = useState(70);
   const [minusLimit, setMinusLimit] = useState(50);
   const [timesLimit, setTimesLimit] = useState(14);
-  const [divisionLimit, setDivisionLimit] = useState(2);
+  const [divisionLimit, setDivisionLimit] = useState(5);
   const [userInput, setUserInput] = useState("");
   const [inputChanged, setInputChanged] = useState(false);
   const [result, setResults] = useState();
@@ -104,14 +104,14 @@ export const Game = () => {
       // ]);
     }
     if (operator === multiplicationSign) {
-      const timesTableSize = "12";
+      const timesTableSize = "13";
       const randomN1 = Math.floor(Math.random() * (timesLimit - 1)) + 2;
       const randomN2 = Math.floor(Math.random() * (timesTableSize - 1)) + 2;
       setRandomNrs([randomN1, randomN2]);
       setResults(randomN1 * randomN2);
     }
     if (operator === divisionSign) {
-      const dividendArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100];
+      const dividendArray = [2, 3, 4, 5, 6, 7, 8, 9, 10, 100];
       const dividend = Math.floor(Math.random() * dividendArray.length) + 1;
       const randomN2 = Math.floor(Math.random() * divisionLimit) + 1;
       const randomN1 = dividend * randomN2;
